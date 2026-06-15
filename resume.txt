@@ -1,0 +1,102 @@
+--- Page 1 ---
+Muhammad Hassan Mukhtar
+Manchester, UK | +44 7350 536488 | mhmrajpoot101@gmail.com
+github.com/MHM-Rajpoot | linkedin.com/in/-muhammad-hassan-mukhtar-/
+Professional Summary
+ML/Data Scientist with an MSc in Artificial Intelligence and hands-on experience building data products,
+machine learning pipelines, and production-ready Python applications. Strong in Python, pandas, NumPy,
+scikit-learn, Django, PostgreSQL, ETL, model evaluation, experimentation, statistical analysis, and data
+wrangling. Familiar with Time Series, Causal Inference, ClickHouse-aligned analytical workflows, and AI
+agents concepts alongside deployable solutions using Docker, CI/CD, and cloud tooling.
+Core Skills
+Programming and Data: Python, SQL, pandas, NumPy, PostgreSQL, ClickHouse, Snowflake, data
+wrangling, data cleaning, ETL, feature engineering, data validation, OCR
+Machine Learning and Statistics: scikit-learn, PyTorch, TensorFlow, Keras, machine learning, statistical
+analysis, experimentation, holdout testing, A/B testing, Causal Inference, Time Series, time series analysis,
+forecasting, model evaluation, hyperparameter tuning, deep learning
+Production and Backend: Django, REST APIs, backend development, data models, Docker, Kubernetes,
+CI/CD, Azure, AWS, production deployment, MLOps
+AI and Retrieval: NLP, embeddings, vector search, retrieval-augmented generation (RAG), OpenAI API,
+LangChain, ChromaDB, LLM evaluation, AI coding tools, AI agents, agentic workflows
+Professional Experience
+Full Stack Developer Oct 2025 - Dec 2025; Apr 2026 - Present
+CBS, Manchester, UK
+- Built a Django and PostgreSQL MVP for order management, invoicing, inventory tracking, and analytical
+reporting, translating business requirements into production-ready workflows and backend logic.
+- Developed REST APIs, authentication, data models, and integration points, and deployed containerised
+services using Docker, CI/CD pipelines, and cloud infrastructure.
+- Created an OCR-based document digitisation workflow using Tesseract and Google OCR to convert scanned
+records into validated digital data for downstream reporting and operations.
+- Delivered dashboards and user-facing tools with JavaScript, HTML, and CSS, improving traceability,
+usability, and near-real-time access to operational data.
+- Worked directly with users on testing, training, process improvement, and adoption of new digital workflows.
+Data Engineer Jan 2026 - Mar 2026
+Quadrant Insights, Manchester, UK
+- Built Python and SQL ETL pipelines for messy, multi-source datasets including supplier documents, product
+specifications, and compliance records, improving data quality and producing analysis-ready datasets.
+- Applied pandas, NumPy, scikit-learn, TensorFlow, and PyTorch to data preprocessing, feature engineering,
+forecasting, statistical modelling, and machine learning workflows for downstream decision support.
+- Implemented NLP, embeddings, vector search, and retrieval workflows using OpenAI API, open-source
+models, and ChromaDB to improve information retrieval and semantic search across unstructured data.
+- Automated data validation, standardisation, monitoring, and repeatable reporting workflows in a fast-paced
+SME environment.
+- Partnered with stakeholders to define requirements, communicate findings, and produce technical reports
+and client-ready outputs.
+Research Project Jan 2026 - Mar 2026
+University of Salford, Manchester
+- Designed reproducible machine learning experiments in Python, PyTorch, and Keras to evaluate robustness
+in Active Learning, with strong focus on model evaluation, controlled experimentation, and statistical
+interpretation.
+- Built and tuned CNN and Vision Transformer baselines, tracked experiments, and documented results to
+support reliable and explainable deployment decisions.
+
+--- Page 2 ---
+- Performed bias analysis, robustness testing, and technical reporting, translating research outcomes into
+practical recommendations for business-critical AI workflows.
+Research Assistant Intern Jul 2025 - Sep 2025
+University of Salford, Manchester
+- Developed a real-time computer vision system using Segment Anything Model, multi-object tracking,
+PyTorch, and CUDA to extract structured spatial data from live visual inputs.
+- Calibrated homographic transformations to map pixel coordinates to real-world coordinates, improving
+downstream analysis accuracy.
+- Evaluated system robustness, performance, and maintainability through structured testing and documentation.
+Junior Data Analyst Jul 2023 - Jun 2025
+Digicare, Islamabad
+- Built Python, SQL, and SAS data pipelines for reporting, data preparation, business analysis, and
+operational decision support.
+- Cleaned, validated, and transformed structured datasets, improving data quality and supporting repeatable
+analytics workflows.
+- Contributed to feature engineering, model validation, and KPI analysis for data-driven reporting and
+business insights.
+- Worked with cross-functional teams and communicated technical findings clearly to non-technical
+stakeholders.
+Selected Projects
+Object-Tracking-and-ID-Maintenance
+- Real-time computer vision project for object tracking and identity maintenance across frames using detection
+and tracking workflows.
+- Tech used: Python, PyTorch, Computer Vision, multi-object tracking, OpenCV, deep learning.
+Secure-and-Trust-Aware-Active-Learning-in-Machine-Vision
+- Research-focused machine vision project exploring robust and trust-aware active learning under challenging
+conditions with emphasis on experimentation and model evaluation.
+- Tech used: Python, PyTorch, Keras, Active Learning, Machine Vision, experimentation, model evaluation.
+monte-carlos-tic-tac-toe
+- Monte Carlo search project applying simulation-based decision making and algorithmic reasoning to game
+strategy optimisation.
+- Tech used: Python, Monte Carlo methods, algorithms, simulation, decision making.
+LeetCodeApp
+- Coding practice application focused on problem solving, algorithm implementation, and structured software
+development workflows.
+- Tech used: Python, Django, PostgreSQL, algorithms, backend development, REST API concepts.
+Education
+MSc Artificial Intelligence Jan 2024 - Apr 2025
+University of Salford, Manchester
+Relevant Modules: Big Data Tools and Techniques, Natural Language Processing, Deep Learning, Machine
+Learning and Data Mining
+BSc Computer Science (Artificial Intelligence and Data Science)Sep 2020 - Aug 2024
+Air University, Islamabad
+Relevant Modules: Machine Learning, NLP, Computer Vision, Reinforcement Learning, Database Systems,
+Data Structures and Algorithms, Parallel and Distributed Computing, Technical and Business Writing
+Certifications
+- IBM RAG and Agentic AI Professional CertificateIssued Jul 2025
+- Microsoft AI Product Manager Professional CertificateIssued Aug 2025
+- JPMorgan Chase & Co. Quantitative Research Virtual Experience ProgramIssued Sep 2025

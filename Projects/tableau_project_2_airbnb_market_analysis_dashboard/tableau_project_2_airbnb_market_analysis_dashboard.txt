@@ -1,0 +1,165 @@
+TABLEAU PROJECT 2: AIRBNB MARKET ANALYSIS DASHBOARD
+
+Dataset
+- Name: Airbnb listings and review data
+- Suggested source: Inside Airbnb or another public Airbnb export
+- Access: Download a city-level Airbnb listings dataset and its related reviews or calendar file if available.
+- Notes: Useful fields often include listing ID, host ID, neighborhood, latitude, longitude, room type, price, minimum nights, availability, number of reviews, and review frequency.
+
+Project goal
+Build a Tableau dashboard that helps evaluate Airbnb market opportunity by neighborhood, room type, pricing, and supply concentration.
+
+Business questions
+- Which neighborhoods have the highest listing volume?
+- Which areas have the highest average prices?
+- Where do pricing and review activity suggest strong market demand?
+- Which room types dominate the market?
+- Are there neighborhoods that look attractive without being heavily oversupplied?
+
+Final deliverables
+- Tableau workbook file (.twb or .twbx).
+- 3-dashboard story: Market Overview, Neighborhood Opportunity Analysis, Pricing and Listing Mix.
+- Short recommendation summary for where a host or investor should focus.
+
+Recommended workbook structure
+- Data Source tab
+- Cleaning and helper calculations
+- Overview worksheets
+- Neighborhood ranking worksheets
+- Pricing worksheets
+- Map worksheets
+- Final dashboards
+
+Step-by-step build guide
+
+1. Connect the data
+- Open Tableau.
+- Connect to the Airbnb listings file.
+- If you also have a reviews or calendar file, connect it as a second table.
+- Join or relate files only if they share a stable listing ID and the grain is understood.
+
+2. Clean and validate the fields
+- Convert price from text to numeric if needed.
+- Remove currency symbols and commas if present.
+- Confirm neighborhood and room type are dimensions.
+- Confirm latitude and longitude are numeric and map correctly.
+- Remove duplicate listing rows if the source contains them.
+
+3. Create useful calculated fields
+Examples:
+
+Price Numeric
+= FLOAT(REPLACE(REPLACE([price], "$", ""), ",", ""))
+
+Estimated Annual Reviews
+= [number_of_reviews] / NULLIF([reviews_per_month], 0)
+
+Price Band
+= IF [Price Numeric] < 75 THEN "Budget"
+ELSEIF [Price Numeric] < 150 THEN "Mid"
+ELSEIF [Price Numeric] < 250 THEN "Upper Mid"
+ELSE "Premium"
+END
+
+Activity Score
+= ZN([number_of_reviews]) + (ZN([reviews_per_month]) * 12)
+
+Note:
+- If your source already stores price as numeric, you do not need the cleaning formula above.
+- If reviews_per_month is missing in your file, use number_of_reviews as a simpler demand proxy.
+
+4. Build KPI sheets
+Create sheets for:
+- Listing Count
+- Average Price
+- Median Price if preferred
+- Average Minimum Nights
+- Average Reviews per Listing
+
+5. Build market overview worksheets
+- Bar chart: Listing Count by Neighborhood.
+- Bar chart: Average Price by Neighborhood.
+- Donut or stacked bar: Room Type mix.
+- Box plot: Price by Room Type.
+
+6. Build neighborhood opportunity views
+- Scatter plot:
+  - Columns: AVG([Price Numeric])
+  - Rows: AVG([Activity Score])
+  - Detail: Neighborhood
+  - Size: COUNT([listing_id])
+
+Use this to identify neighborhoods with both pricing power and market activity.
+
+7. Build map views
+- Use latitude and longitude for listing locations.
+- Color by room type or price band.
+- Size by price or review count.
+- If the map is too dense, aggregate at neighborhood level.
+
+8. Build pricing analysis
+- Histogram or binned bar chart for price distribution.
+- Highlight table of Neighborhood by Room Type with Average Price.
+- Bar chart of top neighborhoods by average price.
+
+9. Add filters and parameters
+Useful filters:
+- Neighborhood
+- Room Type
+- Price Band
+- Minimum Nights
+
+Optional parameter:
+- Metric selector to swap between Average Price, Listing Count, and Activity Score.
+
+10. Design Dashboard 1: Market Overview
+Suggested layout:
+- Top: title and filters.
+- KPI row: Listing Count, Average Price, Average Reviews, Average Minimum Nights.
+- Middle: neighborhood supply and room-type mix.
+- Bottom: price distribution and summary table.
+
+11. Design Dashboard 2: Neighborhood Opportunity Analysis
+Suggested layout:
+- Left: neighborhood ranking chart.
+- Middle: opportunity scatter plot.
+- Right: neighborhood detail table.
+- Bottom: insight callouts for strongest neighborhoods.
+
+12. Design Dashboard 3: Pricing and Listing Mix
+Suggested layout:
+- Left: map.
+- Right top: average price by room type.
+- Right bottom: neighborhood x room type highlight table.
+
+13. Add dashboard polish
+- Use a clean color system for room types or price bands.
+- Format prices as currency.
+- Keep map legends simple.
+- Add tooltips with neighborhood, average price, listing count, and activity metrics.
+
+14. Validate the analysis
+- Check that listing counts match the underlying source.
+- Test filters and map behavior.
+- Verify that average price is not distorted by text-formatting issues.
+- Review outliers that may represent luxury properties or data errors.
+
+15. Write final insights
+Include points such as:
+- Neighborhoods with the strongest pricing power.
+- Areas with high listing supply but weaker activity.
+- Room types with the most market presence.
+- Neighborhoods that appear attractive for expansion or further due diligence.
+- Main risks such as oversupply, low activity, or restrictive minimum-night patterns.
+
+Portfolio story
+Frame this as: "I built a Tableau market analysis dashboard to evaluate Airbnb neighborhood opportunity, pricing patterns, and short-term rental supply."
+
+Skills demonstrated
+- Tableau data preparation
+- Calculated fields
+- Map-based analysis
+- Scatter plot opportunity analysis
+- Dashboard filtering
+- Market segmentation
+- Business storytelling

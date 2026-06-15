@@ -1,0 +1,218 @@
+POWER BI PROJECT 1: FINANCIAL PERFORMANCE DASHBOARD
+
+Dataset
+- Name: Financial Sample Excel Workbook for Power BI
+- Source: Microsoft Learn
+- Link: https://learn.microsoft.com/en-us/power-bi/create-reports/sample-financial-download
+- Direct workbook link commonly provided by Microsoft: https://go.microsoft.com/fwlink/?LinkID=521962
+- Download: Open the Microsoft Learn page and download the Financial Sample Excel workbook, or open Power BI Desktop and choose Use sample data > Load sample data.
+- Notes: Microsoft describes it as sample financial data with sales and profit by market segment and country/region.
+
+Project goal
+Build a professional Power BI executive dashboard that tracks sales, profit, discounting, country performance, product performance, and year-over-year movement.
+
+Business questions
+- What are total sales, profit, units sold, and profit margin?
+- Which segments and products drive the most revenue?
+- Which countries/regions are most profitable?
+- Are discounts helping or hurting profit?
+- How are sales and profit trending over time?
+
+Final deliverables
+- Power BI .pbix file.
+- 3-page report: Executive Overview, Product and Segment Analysis, Country Performance.
+- DAX measure table.
+- Short written insight summary.
+
+Step-by-step build guide
+
+1. Download and open the data
+- Download Financial Sample.xlsx from Microsoft Learn.
+- Open Power BI Desktop.
+- Home > Get Data > Excel Workbook.
+- Select Financial Sample.xlsx.
+- In Navigator, choose the Financials table.
+- Click Transform Data.
+
+2. Clean data in Power Query
+- Confirm columns have correct data types:
+  - Date: Date
+  - Sales, Profit, COGS, Discounts, Gross Sales: Decimal Number or Fixed Decimal Number
+  - Units Sold: Whole Number
+  - Segment, Country, Product, Discount Band: Text
+- Rename columns consistently if needed.
+- Remove blank rows.
+- Confirm there are no error rows in numeric fields.
+- Click Close & Apply.
+
+3. Create a Date table
+In Power BI, go to Modeling > New Table:
+
+Date =
+CALENDAR(MIN(Financials[Date]), MAX(Financials[Date]))
+
+Add calculated columns:
+
+Year = YEAR('Date'[Date])
+
+Month Number = MONTH('Date'[Date])
+
+Month = FORMAT('Date'[Date], "MMM")
+
+Year Month = FORMAT('Date'[Date], "YYYY-MM")
+
+Quarter = "Q" & FORMAT('Date'[Date], "Q")
+
+Sort Month by Month Number.
+
+4. Create relationships
+- Go to Model view.
+- Relate Date[Date] to Financials[Date].
+- Relationship should be one-to-many from Date to Financials.
+- Set cross-filter direction to single.
+
+5. Create a Measures table
+- Home > Enter Data.
+- Create a blank table named Measures.
+- Hide the placeholder column.
+- Add all DAX measures to this table for a clean model.
+
+6. Create core DAX measures
+
+Total Sales =
+SUM(Financials[Sales])
+
+Total Profit =
+SUM(Financials[Profit])
+
+Total Units =
+SUM(Financials[Units Sold])
+
+Gross Sales =
+SUM(Financials[Gross Sales])
+
+Total Discounts =
+SUM(Financials[Discounts])
+
+COGS =
+SUM(Financials[COGS])
+
+Profit Margin =
+DIVIDE([Total Profit], [Total Sales])
+
+Discount Rate =
+DIVIDE([Total Discounts], [Gross Sales])
+
+Average Selling Price =
+DIVIDE([Total Sales], [Total Units])
+
+7. Create time intelligence measures
+
+Sales LY =
+CALCULATE([Total Sales], SAMEPERIODLASTYEAR('Date'[Date]))
+
+Profit LY =
+CALCULATE([Total Profit], SAMEPERIODLASTYEAR('Date'[Date]))
+
+Sales YoY Change =
+[Total Sales] - [Sales LY]
+
+Sales YoY % =
+DIVIDE([Sales YoY Change], [Sales LY])
+
+Profit YoY % =
+DIVIDE([Total Profit] - [Profit LY], [Profit LY])
+
+8. Page 1: Executive Overview
+Add these visuals:
+- Card: Total Sales.
+- Card: Total Profit.
+- Card: Profit Margin.
+- Card: Total Units.
+- Line chart: Total Sales by Date[Year Month].
+- Clustered column chart: Total Sales and Total Profit by Segment.
+- Bar chart: Total Sales by Product.
+- Map or filled map: Total Sales by Country.
+- Slicer: Year.
+- Slicer: Segment.
+- Slicer: Country.
+
+Formatting tips:
+- Format sales and profit as currency.
+- Format profit margin and YoY values as percentages.
+- Use short chart titles.
+- Keep slicers in a vertical panel or across the top.
+
+9. Page 2: Product and Segment Analysis
+Add visuals:
+- Matrix: Product by Segment with Sales, Profit, Profit Margin.
+- Bar chart: Profit by Product.
+- Scatter chart: Sales vs Profit by Product, size by Units Sold.
+- Column chart: Discounts by Product.
+- Waterfall chart: Gross Sales to Sales to Profit if useful.
+
+Analysis focus:
+- Products with high sales but low profit margin.
+- Segments where discounts are high but profit is weak.
+- Products that deserve more marketing or pricing review.
+
+10. Page 3: Country Performance
+Add visuals:
+- Filled map: Sales by Country.
+- Matrix: Country with Sales, Profit, Units, Profit Margin, Discount Rate.
+- Bar chart: Profit Margin by Country.
+- Line chart: Sales trend by Country.
+- Slicer: Product.
+- Slicer: Segment.
+
+11. Add drill-through
+- Create a new page called Country Detail.
+- Add Country to Drill-through fields.
+- Add KPI cards, trend chart, product table, and segment breakdown.
+- Right-click a country on another visual to test drill-through.
+
+12. Add report interactions
+- Use Format > Edit Interactions.
+- Make sure slicers filter relevant visuals.
+- Avoid visual interactions that create confusing blank charts.
+
+13. Add conditional formatting
+- In matrices, apply background color to Profit Margin.
+- Use data bars for Sales and Profit.
+- Highlight negative or weak profit values.
+
+14. Create a tooltip page
+- Add a new page.
+- Set Page Information > Tooltip = On.
+- Set Canvas Settings > Type = Tooltip.
+- Add small visuals for sales, profit, and margin.
+- Assign this tooltip to product or country charts.
+
+15. Validate the numbers
+- Compare total sales in Power BI to the Excel source.
+- Check that Date table relationships are active.
+- Test slicers and make sure KPIs change correctly.
+- Confirm percentage measures do not divide by zero.
+
+16. Write final insights
+Include 5 to 8 insights such as:
+- Top revenue segment.
+- Most profitable product.
+- Country with strongest margin.
+- Segment with discount risk.
+- Trend direction by year.
+- Recommendation for pricing, discounting, or market focus.
+
+Portfolio story
+Frame this as: "I built an executive Power BI dashboard using Microsoft's Financial Sample to monitor revenue, margin, discounting, and market performance."
+
+Skills demonstrated
+- Power Query cleaning
+- Star schema basics
+- Date table creation
+- DAX measures
+- Time intelligence
+- Drill-through
+- Tooltips
+- Executive dashboard design
+

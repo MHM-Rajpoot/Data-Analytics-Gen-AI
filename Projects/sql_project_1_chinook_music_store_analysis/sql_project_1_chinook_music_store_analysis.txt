@@ -1,0 +1,223 @@
+SQL PROJECT 1: CHINOOK MUSIC STORE ANALYSIS
+
+Dataset
+- Name: Chinook Database
+- Source: lerocha/chinook-database GitHub repository
+- Link: https://github.com/lerocha/chinook-database
+- Releases: https://github.com/lerocha/chinook-database/releases
+- SQLite file path in repo: https://github.com/lerocha/chinook-database/blob/master/ChinookDatabase/DataSources/Chinook_Sqlite.sqlite
+- Notes: Chinook is a sample database for SQL Server, Oracle, MySQL, PostgreSQL, SQLite, and DB2. It represents a digital media store with artists, albums, tracks, invoices, invoice lines, customers, and employees.
+
+Project goal
+Use SQL to analyze a digital music store's sales, customers, products, countries, genres, and employee sales performance.
+
+Recommended tools
+- SQLite + DB Browser for SQLite, DBeaver, or VS Code SQLite extension.
+- Alternative: PostgreSQL, MySQL, or SQL Server using the scripts from the Chinook releases.
+
+Business questions
+- Which countries generate the most revenue?
+- Which genres and artists sell the most?
+- Who are the highest value customers?
+- Which sales support reps manage the most revenue?
+- How does monthly revenue trend over time?
+- Which tracks or albums are underperforming?
+
+Final deliverables
+- SQL file with cleaned, commented queries.
+- Exported CSV result tables.
+- Optional dashboard in Excel, Power BI, or Tableau using SQL query outputs.
+- Short insight summary.
+
+Setup steps
+
+1. Download the database
+- Go to the Chinook GitHub releases page.
+- Download the SQLite database or SQLite script.
+- If using the .sqlite file, open it directly in DB Browser for SQLite or DBeaver.
+- If using a SQL script, create a new database and run the script.
+
+2. Inspect the schema
+Key tables to understand:
+- Customer
+- Employee
+- Invoice
+- InvoiceLine
+- Track
+- Album
+- Artist
+- Genre
+- MediaType
+- Playlist
+- PlaylistTrack
+
+3. Confirm the database works
+Run:
+
+SELECT name
+FROM sqlite_master
+WHERE type = 'table'
+ORDER BY name;
+
+4. Create an analysis SQL file
+Name it chinook_music_store_analysis.sql.
+Add section comments:
+- revenue trends
+- customer analysis
+- product analysis
+- geography
+- employee performance
+
+Core SQL queries
+
+1. Total revenue
+
+SELECT
+    ROUND(SUM(Total), 2) AS total_revenue
+FROM Invoice;
+
+2. Monthly revenue trend
+
+SELECT
+    strftime('%Y-%m', InvoiceDate) AS invoice_month,
+    ROUND(SUM(Total), 2) AS revenue,
+    COUNT(*) AS invoice_count
+FROM Invoice
+GROUP BY strftime('%Y-%m', InvoiceDate)
+ORDER BY invoice_month;
+
+3. Revenue by country
+
+SELECT
+    BillingCountry AS country,
+    ROUND(SUM(Total), 2) AS revenue,
+    COUNT(*) AS invoices
+FROM Invoice
+GROUP BY BillingCountry
+ORDER BY revenue DESC;
+
+4. Top customers by lifetime value
+
+SELECT
+    c.CustomerId,
+    c.FirstName || ' ' || c.LastName AS customer_name,
+    c.Country,
+    ROUND(SUM(i.Total), 2) AS lifetime_value,
+    COUNT(i.InvoiceId) AS invoice_count
+FROM Customer c
+JOIN Invoice i
+    ON c.CustomerId = i.CustomerId
+GROUP BY c.CustomerId, customer_name, c.Country
+ORDER BY lifetime_value DESC
+LIMIT 20;
+
+5. Revenue by genre
+
+SELECT
+    g.Name AS genre,
+    ROUND(SUM(il.UnitPrice * il.Quantity), 2) AS revenue,
+    SUM(il.Quantity) AS units_sold
+FROM InvoiceLine il
+JOIN Track t
+    ON il.TrackId = t.TrackId
+JOIN Genre g
+    ON t.GenreId = g.GenreId
+GROUP BY g.Name
+ORDER BY revenue DESC;
+
+6. Top artists by revenue
+
+SELECT
+    ar.Name AS artist,
+    ROUND(SUM(il.UnitPrice * il.Quantity), 2) AS revenue,
+    SUM(il.Quantity) AS tracks_sold
+FROM InvoiceLine il
+JOIN Track t
+    ON il.TrackId = t.TrackId
+JOIN Album al
+    ON t.AlbumId = al.AlbumId
+JOIN Artist ar
+    ON al.ArtistId = ar.ArtistId
+GROUP BY ar.Name
+ORDER BY revenue DESC
+LIMIT 20;
+
+7. Sales support rep performance
+
+SELECT
+    e.EmployeeId,
+    e.FirstName || ' ' || e.LastName AS sales_rep,
+    ROUND(SUM(i.Total), 2) AS managed_revenue,
+    COUNT(DISTINCT c.CustomerId) AS customers_managed,
+    COUNT(i.InvoiceId) AS invoices
+FROM Employee e
+JOIN Customer c
+    ON e.EmployeeId = c.SupportRepId
+JOIN Invoice i
+    ON c.CustomerId = i.CustomerId
+GROUP BY e.EmployeeId, sales_rep
+ORDER BY managed_revenue DESC;
+
+8. Repeat purchase behavior
+
+SELECT
+    invoice_count,
+    COUNT(*) AS customer_count
+FROM (
+    SELECT
+        CustomerId,
+        COUNT(*) AS invoice_count
+    FROM Invoice
+    GROUP BY CustomerId
+) x
+GROUP BY invoice_count
+ORDER BY invoice_count;
+
+9. Tracks never purchased
+
+SELECT
+    t.TrackId,
+    t.Name AS track_name,
+    ar.Name AS artist,
+    al.Title AS album,
+    g.Name AS genre
+FROM Track t
+JOIN Album al
+    ON t.AlbumId = al.AlbumId
+JOIN Artist ar
+    ON al.ArtistId = ar.ArtistId
+LEFT JOIN Genre g
+    ON t.GenreId = g.GenreId
+LEFT JOIN InvoiceLine il
+    ON t.TrackId = il.TrackId
+WHERE il.InvoiceLineId IS NULL
+ORDER BY artist, album, track_name;
+
+Advanced analysis ideas
+- Use window functions to rank genres by revenue within each country.
+- Calculate average order value by country.
+- Create customer segments based on lifetime value.
+- Compare invoice frequency by customer region.
+- Build a small SQL view for dashboarding.
+
+Portfolio output suggestion
+Create CSV exports:
+- monthly_revenue.csv
+- country_revenue.csv
+- genre_revenue.csv
+- top_customers.csv
+- sales_rep_performance.csv
+
+Portfolio story
+Frame this as: "I used SQL to analyze digital music store revenue, customer value, product performance, and sales representative performance using a normalized relational database."
+
+Skills demonstrated
+- SQL joins
+- Aggregations
+- Date grouping
+- Customer lifetime value
+- Product ranking
+- Left joins for missing sales
+- Window functions if added
+- Exporting query results for dashboards
+

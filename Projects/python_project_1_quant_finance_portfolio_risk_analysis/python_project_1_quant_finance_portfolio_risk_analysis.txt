@@ -1,0 +1,426 @@
+PYTHON PROJECT 1: QUANT FINANCE PORTFOLIO RISK AND FACTOR ANALYSIS
+
+Dataset
+- Name: Public market price data plus Fama/French factor data
+- Price data source: Yahoo Finance data accessed with the yfinance Python package
+- yfinance link: https://github.com/ranaroussi/yfinance
+- yfinance API docs: https://ranaroussi.github.io/yfinance/reference/index.html
+- Factor data source: Kenneth R. French Data Library
+- Fama/French link: https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/data_library.html
+- pandas-datareader Fama/French docs: https://pandas-datareader.readthedocs.io/en/latest/remote_data.html#fama-french
+- Suggested assets: SPY, QQQ, IWM, TLT, GLD
+- Notes: These ETFs give exposure to US large-cap equities, Nasdaq/growth equities, US small caps, long-term Treasury bonds, and gold. This gives enough variety for portfolio risk, correlation, factor exposure, and backtesting analysis.
+
+Project goal
+Build an end-to-end Python quant finance project that analyzes asset returns, estimates portfolio risk, measures factor exposure, creates an optimized allocation, and backtests a simple rules-based strategy against SPY.
+
+Important note
+This project is for education and portfolio demonstration only. It is not financial advice.
+
+Quant finance questions
+- Which assets delivered the strongest annualized return, volatility, Sharpe ratio, and maximum drawdown?
+- How correlated are the selected ETFs?
+- Which assets have the highest market beta, size exposure, and value exposure using Fama/French factors?
+- Can an optimized portfolio improve risk-adjusted return versus an equal-weight portfolio?
+- Does a simple monthly momentum strategy outperform a buy-and-hold SPY benchmark?
+- What are the limitations of this backtest?
+
+Final deliverables
+- Jupyter notebook.
+- Cleaned price and return CSV files.
+- Risk metric summary table.
+- Factor regression output table.
+- Optimized portfolio weights.
+- Backtest performance chart.
+- Short README-style insight summary.
+
+Recommended folder structure
+- quant_finance_project/
+- data/raw/
+- data/processed/
+- notebooks/
+- outputs/charts/
+- outputs/tables/
+- README.md
+
+Setup
+
+1. Create a virtual environment
+
+python -m venv .venv
+.venv\Scripts\activate
+
+2. Install packages
+
+pip install pandas numpy matplotlib seaborn yfinance pandas-datareader statsmodels scipy
+
+3. Import libraries
+
+import os
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+import yfinance as yf
+import pandas_datareader.data as web
+import statsmodels.api as sm
+from scipy.optimize import minimize
+
+4. Create output folders
+
+os.makedirs("data/raw", exist_ok=True)
+os.makedirs("data/processed", exist_ok=True)
+os.makedirs("outputs/charts", exist_ok=True)
+os.makedirs("outputs/tables", exist_ok=True)
+
+5. Choose the assets and date range
+
+tickers = ["SPY", "QQQ", "IWM", "TLT", "GLD"]
+start_date = "2015-01-01"
+
+6. Download market prices
+
+raw_prices = yf.download(
+    tickers,
+    start=start_date,
+    auto_adjust=True,
+    progress=False
+)
+
+prices = raw_prices["Close"].dropna()
+prices.to_csv("data/raw/etf_adjusted_close_prices.csv")
+
+Check the data:
+
+prices.head()
+prices.tail()
+prices.info()
+prices.isna().sum()
+
+7. Calculate daily returns
+
+daily_returns = prices.pct_change().dropna()
+log_returns = np.log(prices).diff().dropna()
+
+daily_returns.to_csv("data/processed/daily_returns.csv")
+log_returns.to_csv("data/processed/log_returns.csv")
+
+8. Plot normalized price performance
+
+normalized_prices = prices / prices.iloc[0]
+
+plt.figure(figsize=(12, 6))
+normalized_prices.plot(ax=plt.gca())
+plt.title("Normalized ETF Price Performance")
+plt.ylabel("Growth of $1")
+plt.xlabel("Date")
+plt.tight_layout()
+plt.savefig("outputs/charts/normalized_price_performance.png", dpi=150)
+plt.show()
+
+9. Create risk and return metrics
+
+def annualized_return(returns):
+    compounded_growth = (1 + returns).prod()
+    periods = returns.shape[0]
+    return compounded_growth ** (252 / periods) - 1
+
+def annualized_volatility(returns):
+    return returns.std() * np.sqrt(252)
+
+def max_drawdown(returns):
+    wealth = (1 + returns).cumprod()
+    running_max = wealth.cummax()
+    drawdown = wealth / running_max - 1
+    return drawdown.min()
+
+def historical_var(returns, level=0.05):
+    return returns.quantile(level)
+
+def historical_cvar(returns, level=0.05):
+    return returns.apply(lambda s: s[s <= s.quantile(level)].mean())
+
+risk_summary = pd.DataFrame({
+    "annualized_return": annualized_return(daily_returns),
+    "annualized_volatility": annualized_volatility(daily_returns),
+    "sharpe_ratio": annualized_return(daily_returns) / annualized_volatility(daily_returns),
+    "max_drawdown": max_drawdown(daily_returns),
+    "var_95_daily": historical_var(daily_returns),
+    "cvar_95_daily": historical_cvar(daily_returns)
+}).sort_values("sharpe_ratio", ascending=False)
+
+risk_summary.to_csv("outputs/tables/risk_summary.csv")
+print(risk_summary)
+
+10. Visualize risk versus return
+
+plt.figure(figsize=(9, 6))
+sns.scatterplot(
+    data=risk_summary,
+    x="annualized_volatility",
+    y="annualized_return",
+    s=120
+)
+
+for ticker in risk_summary.index:
+    plt.text(
+        risk_summary.loc[ticker, "annualized_volatility"],
+        risk_summary.loc[ticker, "annualized_return"],
+        ticker
+    )
+
+plt.title("Annualized Risk vs Return")
+plt.xlabel("Annualized Volatility")
+plt.ylabel("Annualized Return")
+plt.tight_layout()
+plt.savefig("outputs/charts/risk_vs_return.png", dpi=150)
+plt.show()
+
+11. Analyze correlations
+
+correlation_matrix = daily_returns.corr()
+correlation_matrix.to_csv("outputs/tables/correlation_matrix.csv")
+
+plt.figure(figsize=(8, 6))
+sns.heatmap(correlation_matrix, annot=True, cmap="coolwarm", center=0)
+plt.title("ETF Daily Return Correlation")
+plt.tight_layout()
+plt.savefig("outputs/charts/return_correlation_heatmap.png", dpi=150)
+plt.show()
+
+12. Download Fama/French factor data
+
+ff_data = web.DataReader(
+    "F-F_Research_Data_Factors_daily",
+    "famafrench",
+    start=start_date
+)[0]
+
+ff_data.index = pd.to_datetime(ff_data.index)
+ff_data = ff_data / 100
+ff_data.to_csv("data/raw/fama_french_3_factor_daily.csv")
+
+Check columns:
+
+ff_data.head()
+ff_data.columns
+
+Expected columns:
+- Mkt-RF: market excess return
+- SMB: small minus big size factor
+- HML: high minus low value factor
+- RF: risk-free rate
+
+13. Align ETF returns with factor data
+
+factor_cols = ["Mkt-RF", "SMB", "HML"]
+
+combined = daily_returns.join(ff_data, how="inner")
+
+for ticker in tickers:
+    combined[f"{ticker}_excess"] = combined[ticker] - combined["RF"]
+
+combined.to_csv("data/processed/returns_with_factors.csv")
+
+14. Run Fama/French factor regressions
+
+factor_results = []
+
+X = sm.add_constant(combined[factor_cols])
+
+for ticker in tickers:
+    y = combined[f"{ticker}_excess"]
+    model = sm.OLS(y, X).fit()
+
+    factor_results.append({
+        "ticker": ticker,
+        "annualized_alpha": model.params["const"] * 252,
+        "market_beta": model.params["Mkt-RF"],
+        "smb_beta": model.params["SMB"],
+        "hml_beta": model.params["HML"],
+        "r_squared": model.rsquared
+    })
+
+factor_summary = pd.DataFrame(factor_results).set_index("ticker")
+factor_summary.to_csv("outputs/tables/fama_french_factor_summary.csv")
+print(factor_summary)
+
+15. Visualize factor exposures
+
+factor_summary[["market_beta", "smb_beta", "hml_beta"]].plot(
+    kind="bar",
+    figsize=(11, 6)
+)
+plt.title("Fama/French Factor Exposures")
+plt.ylabel("Beta")
+plt.xticks(rotation=0)
+plt.tight_layout()
+plt.savefig("outputs/charts/factor_exposures.png", dpi=150)
+plt.show()
+
+16. Build an equal-weight portfolio
+
+equal_weights = np.repeat(1 / len(tickers), len(tickers))
+equal_weight_returns = daily_returns.dot(equal_weights)
+
+equal_weight_summary = pd.Series({
+    "annualized_return": annualized_return(equal_weight_returns),
+    "annualized_volatility": annualized_volatility(equal_weight_returns),
+    "sharpe_ratio": annualized_return(equal_weight_returns) / annualized_volatility(equal_weight_returns),
+    "max_drawdown": max_drawdown(equal_weight_returns)
+})
+
+print(equal_weight_summary)
+
+17. Optimize portfolio weights
+
+mean_returns = daily_returns.mean() * 252
+cov_matrix = daily_returns.cov() * 252
+
+def portfolio_return(weights):
+    return np.dot(weights, mean_returns)
+
+def portfolio_volatility(weights):
+    return np.sqrt(np.dot(weights.T, np.dot(cov_matrix, weights)))
+
+def negative_sharpe(weights):
+    return -portfolio_return(weights) / portfolio_volatility(weights)
+
+constraints = [{"type": "eq", "fun": lambda weights: np.sum(weights) - 1}]
+bounds = tuple((0, 0.45) for _ in tickers)
+initial_weights = np.repeat(1 / len(tickers), len(tickers))
+
+optimization = minimize(
+    negative_sharpe,
+    initial_weights,
+    method="SLSQP",
+    bounds=bounds,
+    constraints=constraints
+)
+
+optimized_weights = pd.Series(optimization.x, index=tickers, name="weight")
+optimized_weights.to_csv("outputs/tables/optimized_portfolio_weights.csv")
+print(optimized_weights)
+
+optimized_returns = daily_returns.dot(optimized_weights)
+
+optimized_summary = pd.Series({
+    "annualized_return": annualized_return(optimized_returns),
+    "annualized_volatility": annualized_volatility(optimized_returns),
+    "sharpe_ratio": annualized_return(optimized_returns) / annualized_volatility(optimized_returns),
+    "max_drawdown": max_drawdown(optimized_returns)
+})
+
+print(optimized_summary)
+
+18. Backtest a simple monthly momentum strategy
+
+Strategy rule:
+- At each month end, calculate the last 3 months of ETF performance.
+- Select the top 2 ETFs by momentum.
+- Allocate 50 percent to each selected ETF.
+- Rebalance monthly.
+- Shift weights forward to avoid look-ahead bias.
+
+monthly_prices = prices.resample("M").last()
+monthly_momentum = monthly_prices.pct_change(3)
+
+monthly_signal = monthly_momentum.rank(axis=1, ascending=False) <= 2
+monthly_weights = monthly_signal.div(monthly_signal.sum(axis=1), axis=0).fillna(0)
+
+daily_weights = monthly_weights.reindex(prices.index, method="ffill").shift(1).fillna(0)
+momentum_strategy_returns = (daily_weights * daily_returns).sum(axis=1)
+
+benchmark_returns = daily_returns["SPY"]
+
+backtest = pd.DataFrame({
+    "momentum_strategy": momentum_strategy_returns,
+    "spy_benchmark": benchmark_returns
+}).dropna()
+
+backtest.to_csv("data/processed/momentum_strategy_backtest_returns.csv")
+
+19. Compare strategy performance
+
+backtest_summary = pd.DataFrame({
+    "annualized_return": annualized_return(backtest),
+    "annualized_volatility": annualized_volatility(backtest),
+    "sharpe_ratio": annualized_return(backtest) / annualized_volatility(backtest),
+    "max_drawdown": max_drawdown(backtest)
+})
+
+backtest_summary.to_csv("outputs/tables/backtest_summary.csv")
+print(backtest_summary)
+
+20. Plot backtest equity curves
+
+equity_curves = (1 + backtest).cumprod()
+
+plt.figure(figsize=(12, 6))
+equity_curves.plot(ax=plt.gca())
+plt.title("Momentum Strategy vs SPY Benchmark")
+plt.ylabel("Growth of $1")
+plt.xlabel("Date")
+plt.tight_layout()
+plt.savefig("outputs/charts/momentum_strategy_vs_spy.png", dpi=150)
+plt.show()
+
+21. Plot strategy drawdowns
+
+drawdowns = equity_curves / equity_curves.cummax() - 1
+
+plt.figure(figsize=(12, 6))
+drawdowns.plot(ax=plt.gca())
+plt.title("Drawdown: Momentum Strategy vs SPY")
+plt.ylabel("Drawdown")
+plt.xlabel("Date")
+plt.tight_layout()
+plt.savefig("outputs/charts/backtest_drawdowns.png", dpi=150)
+plt.show()
+
+22. Write final insights
+Include:
+- Best and worst assets by Sharpe ratio.
+- Most volatile asset and largest maximum drawdown.
+- Highest and lowest correlations.
+- Which ETFs have strongest market beta, size beta, and value beta.
+- Equal-weight portfolio versus optimized portfolio.
+- Momentum strategy versus SPY benchmark.
+- Whether the strategy result is economically realistic after fees, taxes, and slippage.
+- Main limitations and how the project could be improved.
+
+Portfolio story
+Frame this as: "I built a Python quant finance workflow to evaluate ETF risk, estimate Fama/French factor exposure, optimize portfolio allocation, and backtest a monthly momentum strategy against a market benchmark."
+
+Skills demonstrated
+- Financial data collection with yfinance
+- Fama/French factor data collection with pandas-datareader
+- Return calculation
+- Risk metrics
+- Correlation analysis
+- Factor regression with statsmodels
+- Portfolio optimization with scipy
+- Backtesting
+- Drawdown analysis
+- Quant finance storytelling
+
+Recommended README structure
+- Project overview
+- Dataset sources
+- Methodology
+- Risk metrics
+- Factor regression results
+- Portfolio optimization results
+- Backtest results
+- Limitations
+- Next steps
+
+Suggested next improvements
+- Add transaction costs and slippage.
+- Add walk-forward optimization.
+- Compare different lookback windows.
+- Add volatility targeting.
+- Add a rolling Sharpe ratio chart.
+- Add Sortino ratio and Calmar ratio.
+- Test more asset classes.
+- Add an interactive dashboard with Streamlit.

@@ -1,0 +1,29 @@
+
+Data Engineer
+Quadrant Insights
+Jan 2026 - Apr 2026
+Greater Manchester, England, United Kingdom - Hybrid
+Work sample image source: LinkedIn post - https://www.linkedin.com/feed/update/urn:li:activity:7443076828082130944?utm_source=share&utm_medium=member_desktop&rcm=ACoAAFZH7FUBPeWQSGrZT-hiMfbaBCGpNtEMhHI
+
+- Designed scalable data pipelines for structured and unstructured datasets using Python, Pandas, and SQL in an SME environment.
+- Built automated ETL workflows to clean, standardise, and transform imperfect open-text field reports into analysis-ready datasets for machine learning and reporting.
+- Reduced manual data cleaning and reporting effort by approximately 30-50% through automation, improving data quality and reporting efficiency.
+- Applied statistical analysis, hypothesis testing, regression, and KPI-focused reporting to uncover trends, patterns, and actionable business insights.
+- Managed Snowflake data warehouse environments and optimised SQL queries to improve performance, reliability, and data accessibility for analytics use cases.
+- Developed time-series forecasting models using ARIMA, SARIMA, and LSTM to support planning, trend analysis, and data-driven decision-making.
+- Reduced forecast error by approximately 10-25% against baseline models through hyperparameter tuning, validation, and time-series cross-validation.
+- Implemented machine learning workflows using Scikit-learn, PyTorch, and TensorFlow, including model evaluation, monitoring, and performance improvement.
+
+Full Stack Architect and Developer
+CBS 
+Sep 2025 - Present
+Greater Manchester, England, United Kingdom - Hybrid
+Work sample image source: ./CBS/
+Available dashboard images: ./CBS/Sales.PNG, ./CBS/Stock.PNG, ./CBS/Forecasting.PNG
+
+- Designed and developed employee-facing dashboards to deliver quick access to operational data, business metrics, and actionable insights.
+- Built daily sales and profit dashboards that enabled teams to monitor performance trends, compare results over time, and identify revenue opportunities faster.
+- Developed stock sold per day dashboards to help staff track product movement, recognise demand patterns, and support better inventory decisions.
+- Created interactive forecasting dashboards with selectable date ranges, allowing users to analyse historical trends and generate short-term forecasts for planning.
+- Improved self-service reporting by presenting key KPIs in a clear visual format, helping employees identify data insights quickly without relying on manual reports.
+- Enhanced decision-making speed by transforming raw company data into easy-to-read dashboards that supported faster analysis, performance tracking, and business review.

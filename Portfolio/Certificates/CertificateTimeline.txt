@@ -1,0 +1,75 @@
+
+
+Advanced Analysis Using Python in Excel with Copilot
+LinkedIn / Microsoft
+Dec 2025
+Work sample certificate path: ./Advanced Analysis Using Python in Excel with Copilot.jfif
+- Applied AI-powered Excel analysis to transform raw data into faster, decision-ready insights.
+- Strengthened advanced Excel, Python, and exploratory data analysis skills beyond formulas, filters, and PivotTables.
+- Built stronger data visualization and geospatial analysis capabilities for clearer business reporting.
+- Used GenAI-assisted analysis to automate code generation, accelerate insight discovery, and support data-driven decisions.
+
+J.P. Morgan - Quantitative Research Job Simulation
+JPMorganChase
+Sep 2025
+Work sample certificate path: ./J.P. Morgan - Quantitative Research Job Simulation.jfif
+- Applied Python, statistics, and quantitative analysis to solve real-world financial data problems.
+- Strengthened predictive modeling, valuation, and risk analysis skills in a business-focused environment.
+- Improved algorithmic thinking, problem-solving, and analytical reasoning through hands-on simulation tasks.
+- Translated complex financial data into structured insights to support evidence-based decision-making.
+
+Microsoft AI Product Manager Professional Certificate
+Microsoft
+Aug 2025
+Work sample certificate path: ./Microsoft AI Product Manager Professional Certificate.jfif
+- Used market research, competitive analysis, and trend evaluation to identify high-value AI opportunities.
+- Strengthened requirements gathering, roadmap planning, and stakeholder communication skills.
+- Applied data-driven decision-making using customer insights, business goals, and performance signals.
+- Built practical understanding of responsible AI, GenAI product strategy, and user-centered solution design.
+
+IBM RAG and Agentic AI Professional Certificate
+IBM
+Jul 2025
+Work sample certificate path: Not currently saved in this folder
+- Built Retrieval-Augmented Generation pipelines using embeddings, vector databases, LangChain, and LlamaIndex.
+- Developed multimodal AI skills across text, image, audio, and video data workflows.
+- Strengthened agentic AI and workflow orchestration skills using tool calling, LangGraph, CrewAI, and related frameworks.
+- Connected LLMs to external tools and structured context, improving automation, accuracy, and intelligent data retrieval.
+
+TensorFlow: Advanced Deep Learning Techniques
+DeepLearning.AI
+Issued Aug 2023
+Work sample certificate path: ./TensorFlow Advanced Deep Learning Techniques.jfif
+- Built advanced TensorFlow skills for developing custom deep learning models and scalable AI workflows.
+- Strengthened model architecture design using custom layers, custom loss functions, and non-sequential neural networks.
+- Applied computer vision and generative AI techniques including object detection, style transfer, autoencoders, VAEs, and GANs.
+- Expanded practical machine learning capability in pattern recognition, image analysis, and data-driven model optimization.
+
+
+Probabilistic Deep Learning with TensorFlow 2
+Imperial College London
+Issued Aug 2023
+Work sample certificate path: ./Probabilistic Deep Learning with TensorFlow 2.jfif
+- Built probabilistic deep learning models with TensorFlow Probability to quantify uncertainty in real-world data.
+- Applied Bayesian neural networks, normalizing flows, and variational autoencoders for advanced predictive modeling.
+- Strengthened statistical reasoning by incorporating probability distributions and uncertainty estimation into deep learning workflows.
+- Developed generative modeling skills that support higher-quality forecasting, risk analysis, and AI decision systems.
+
+
+Machine Learning
+SkillUp
+Jun 2022
+Work sample certificate path: ./Machine Learning.jfif
+- Built core machine learning knowledge across algorithms, model training, evaluation, and inference.
+- Strengthened data preprocessing, feature preparation, and model validation skills for reliable analytics outcomes.
+- Applied Python-based machine learning workflows to support predictive analytics and pattern detection.
+- Established a strong technical base for advanced AI and GenAI applications grounded in data-driven modeling.
+
+Data Science
+SkillUp
+May 2022
+Work sample certificate path: ./Data Science.jfif
+- Built strong foundations in statistics, data analysis, data processing, and analytical modeling.
+- Strengthened Python, SQL, data visualization, and machine learning skills for end-to-end analytics workflows.
+- Applied data cleaning, data preparation, and exploratory data analysis to uncover patterns and business insights.
+- Developed a solid analytical foundation for predictive analytics, AI, and data quality evaluation.

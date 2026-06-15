@@ -1,0 +1,211 @@
+EXCEL PROJECT 2: RESTAURANT RATINGS INVESTMENT ANALYSIS
+
+Dataset
+- Name: Restaurant Ratings
+- Source: Maven Analytics Data Playground
+- Link: https://mavenanalytics.io/data-playground/restaurant-ratings
+- Download: Open the link, click "Download dataset", download the CSV files, and keep all files in one project folder.
+- Notes: The data contains restaurant ratings in Mexico from real consumers in 2012, plus restaurant details, cuisines, consumer demographics, and consumer preferences.
+- License listed by source: Public Domain.
+
+Project goal
+Build an Excel analysis workbook that helps an investment team choose promising restaurant opportunities based on ratings, cuisine demand, consumer preferences, and market gaps.
+
+Business questions
+- Which restaurants have the strongest overall, food, and service ratings?
+- Which cuisines are highly rated but underserved?
+- What customer groups are represented in the sample?
+- Do customer preferences appear to influence ratings?
+- Which restaurant characteristics would make a strong investment target?
+
+Final deliverables
+- Cleaned Excel workbook with imported CSV tables.
+- Relationship-based analysis using Power Query and, if available, Power Pivot.
+- Interactive Excel dashboard.
+- Short investment recommendation page.
+
+Recommended workbook structure
+- 00_ReadMe: project objective and dataset source.
+- 01_Raw_Tables: keep source imports separate.
+- 02_Cleaned_Tables: cleaned query outputs.
+- 03_Model_Notes: table relationships and data dictionary.
+- 04_Pivots: PivotTables.
+- 05_Dashboard: final dashboard.
+- 06_Recommendation: final restaurant investment shortlist.
+
+Step-by-step build guide
+
+1. Download the dataset
+- Download the Restaurant Ratings dataset from Maven Analytics.
+- Unzip the files.
+- Keep all CSVs in a folder named restaurant_ratings_data.
+- Do not manually edit the original CSV files.
+
+2. Import all CSV files using Power Query
+- Open a new workbook.
+- Go to Data > Get Data > From File > From Folder.
+- Select restaurant_ratings_data.
+- Choose Transform Data.
+- Import each file as a separate query instead of combining all files into one table.
+
+3. Name the queries clearly
+Use names like:
+- ratings
+- restaurants
+- restaurant_cuisines
+- consumers
+- consumer_preferences
+- parking
+- other lookup tables included in the download
+
+4. Clean each table in Power Query
+For every query:
+- Promote first row as headers.
+- Trim and clean text columns.
+- Set numeric rating columns to Whole Number or Decimal Number.
+- Set ID columns such as placeID and consumerID to Text if they are identifiers.
+- Remove fully blank rows.
+- Check for duplicate rows.
+- Rename columns so they are readable but still simple.
+
+5. Create basic data quality checks
+Create a small worksheet called Data Quality with:
+- Row count by table.
+- Distinct restaurant count.
+- Distinct consumer count.
+- Rating min/max values.
+- Count of blank restaurant IDs.
+- Count of blank consumer IDs.
+
+6. Load tables to the Data Model
+- In Power Query, choose Close & Load To.
+- Select "Only Create Connection".
+- Tick "Add this data to the Data Model".
+- Repeat for each table.
+
+7. Create relationships
+Open Power Pivot > Manage > Diagram View.
+Create relationships such as:
+- ratings[placeID] to restaurants[placeID]
+- ratings[consumerID] to consumers[consumerID]
+- restaurant_cuisines[placeID] to restaurants[placeID]
+- consumer_preferences[consumerID] to consumers[consumerID]
+
+If Power Pivot is not available:
+- Use Power Query to merge ratings with restaurants on placeID.
+- Merge ratings with consumers on consumerID.
+- Create one flattened analysis table.
+
+8. Create core measures in Power Pivot
+Use measures like:
+
+Average Rating
+= AVERAGE(ratings[rating])
+
+Average Food Rating
+= AVERAGE(ratings[food_rating])
+
+Average Service Rating
+= AVERAGE(ratings[service_rating])
+
+Rating Count
+= COUNTROWS(ratings)
+
+Rated Restaurants
+= DISTINCTCOUNT(ratings[placeID])
+
+Rated Consumers
+= DISTINCTCOUNT(ratings[consumerID])
+
+9. Create an investment score
+If using normal worksheet formulas, create this in a restaurant-level summary table:
+
+Investment Score
+= (Average Overall Rating*0.40) + (Average Food Rating*0.25) + (Average Service Rating*0.25) + (Rating Count Percentile*0.10)
+
+Simple version:
+- Rank restaurants by average rating.
+- Filter to restaurants with enough rating count.
+- Give preference to strong service and food scores.
+
+10. Build PivotTable 1: top restaurants
+- Rows: restaurant name.
+- Values: Average Rating, Average Food Rating, Average Service Rating, Rating Count.
+- Filter out restaurants with very low rating count.
+- Sort by Average Rating descending.
+
+11. Build PivotTable 2: cuisine performance
+- Rows: cuisine.
+- Values: Average Rating, Rating Count, Distinct Count of restaurant.
+- Sort by Average Rating descending.
+- Add conditional formatting to highlight high rating and low supply.
+
+12. Build PivotTable 3: consumer profile
+- Rows: age group, budget, smoker, drink_level, transportation_method if available.
+- Values: Distinct Count of consumerID.
+- Use charts to show the profile of reviewers.
+
+13. Build PivotTable 4: cuisine demand vs supply
+Create two views:
+- Supply: number of restaurants by cuisine.
+- Demand: number of consumers preferring each cuisine.
+Then calculate:
+- Demand Supply Gap = Consumer Preference Count - Restaurant Count
+
+14. Build PivotTable 5: rating by restaurant characteristics
+Analyze average rating by:
+- price level
+- alcohol service
+- smoking area
+- parking availability
+- cuisine
+- city or state if location fields are available
+
+15. Create slicers
+Useful slicers:
+- cuisine
+- price
+- city/state
+- alcohol service
+- parking
+- consumer budget
+
+Connect slicers to all related PivotTables.
+
+16. Design the dashboard
+Suggested layout:
+- Top: title, slicers, KPI cards.
+- KPI cards: Average Rating, Restaurants Rated, Consumers, Best Cuisine.
+- Left: top restaurant investment shortlist.
+- Middle: cuisine rating chart.
+- Right: consumer profile chart.
+- Bottom: demand vs supply gap table or bar chart.
+
+17. Create a final recommendation page
+For the top 3 restaurant investment opportunities, write:
+- Restaurant name.
+- Cuisine.
+- Average rating.
+- Food and service rating.
+- Why it is attractive.
+- Main risk or limitation.
+- Recommended next step.
+
+18. Add portfolio polish
+- Add a short project summary at the top of the workbook.
+- Include the dataset link.
+- Add a note explaining that this is a sample data project.
+- Export the dashboard as PDF or image.
+
+Portfolio story
+Frame this as: "I analyzed restaurant ratings and consumer preferences to identify high-potential restaurant investment opportunities and underserved cuisine segments."
+
+Skills demonstrated
+- Excel Power Query
+- Multi-table data cleaning
+- Data modeling
+- Relationship-based PivotTables
+- DAX measures in Power Pivot
+- Ranking and scoring logic
+- Business recommendation writing
+

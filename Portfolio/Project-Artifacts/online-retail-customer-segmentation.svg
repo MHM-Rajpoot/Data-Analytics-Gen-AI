@@ -1,0 +1,65 @@
+<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 960 540' role='img' aria-label='Online Retail Customer Segmentation dashboard mockup'>
+  <defs>
+    <linearGradient id='bg' x1='0' y1='0' x2='1' y2='1'>
+      <stop offset='0%' stop-color='#f8f7f2'/>
+      <stop offset='55%' stop-color='#eef2f4'/>
+      <stop offset='100%' stop-color='#f9efe7'/>
+    </linearGradient>
+    <linearGradient id='hero' x1='0' y1='0' x2='1' y2='1'>
+      <stop offset='0%' stop-color='#C98A28'/>
+      <stop offset='55%' stop-color='#E0C0B0'/>
+      <stop offset='100%' stop-color='#907060'/>
+    </linearGradient>
+    <pattern id='grid' width='36' height='36' patternUnits='userSpaceOnUse'>
+      <path d='M 36 0 L 0 0 0 36' fill='none' stroke='rgba(16,16,16,0.04)' stroke-width='1'/>
+    </pattern>
+    <filter id='softShadow' x='-20%' y='-20%' width='140%' height='140%'>
+      <feDropShadow dx='0' dy='10' stdDeviation='18' flood-color='rgba(16,16,16,0.12)'/>
+    </filter>
+  </defs>
+  <rect width='960' height='540' fill='url(#bg)'/>
+  <rect width='960' height='540' fill='url(#grid)' opacity='0.5'/>
+  <circle cx='865' cy='72' r='112' fill='rgba(224,192,176,0.18)'/>
+  <circle cx='118' cy='468' r='152' fill='rgba(160,176,192,0.15)'/>
+  <rect x='34' y='28' width='892' height='484' rx='24' fill='rgba(255,255,255,0.9)' stroke='rgba(96,128,144,0.12)' filter='url(#softShadow)'/>
+  <rect x='34' y='28' width='892' height='84' rx='24' fill='url(#hero)'/>
+  <rect x='34' y='80' width='892' height='32' fill='rgba(255,255,255,0.18)'/>
+  <text x='60' y='64' font-family='Segoe UI, Arial, sans-serif' font-size='28' font-weight='800' fill='#ffffff'>Online Retail Customer Segmentation</text>
+  <text x='60' y='92' font-family='Segoe UI, Arial, sans-serif' font-size='12' font-weight='700' letter-spacing='1.6' fill='rgba(255,255,255,0.9)'>RFM clusters, cohorts, and retention</text>
+  <text x='860' y='64' text-anchor='end' font-family='Segoe UI, Arial, sans-serif' font-size='11' font-weight='800' letter-spacing='1.6' fill='rgba(255,255,255,0.92)'>Python</text>
+  <g transform='translate(62,130)'>
+    <rect x='0' y='0' width='168' height='74' rx='14' fill='rgba(255,255,255,0.9)' stroke='rgba(96,128,144,0.16)'/>
+<text x='14' y='24' font-size='11' font-weight='800' letter-spacing='1.2' fill='#608090'>Customers</text>
+<text x='14' y='49' font-size='24' font-weight='800' fill='#101010'>12,430</text>
+<text x='114' y='50' font-size='12' font-weight='700' fill='#907060'>RFM</text>
+<rect x='178' y='0' width='168' height='74' rx='14' fill='rgba(255,255,255,0.9)' stroke='rgba(96,128,144,0.16)'/>
+<text x='192' y='24' font-size='11' font-weight='800' letter-spacing='1.2' fill='#608090'>Clusters</text>
+<text x='192' y='49' font-size='24' font-weight='800' fill='#101010'>4</text>
+<text x='292' y='50' font-size='12' font-weight='700' fill='#907060'>Live</text>
+<rect x='534' y='0' width='168' height='74' rx='14' fill='rgba(255,255,255,0.9)' stroke='rgba(96,128,144,0.16)'/>
+<text x='548' y='24' font-size='11' font-weight='800' letter-spacing='1.2' fill='#608090'>Retention</text>
+<text x='548' y='49' font-size='24' font-weight='800' fill='#101010'>68%</text>
+<text x='648' y='50' font-size='12' font-weight='700' fill='#907060'>+9%</text>
+    <rect x='0' y='94' width='306' height='280' rx='20' fill='rgba(255,255,255,0.92)' stroke='rgba(96,128,144,0.12)'/>
+    <text x='18' y='122' font-family='Segoe UI, Arial, sans-serif' font-size='13' font-weight='800' fill='#608090'>RFM clusters</text>
+    <circle cx='120' cy='196' r='64' fill='rgba(96,128,144,0.12)'/>
+    <circle cx='176' cy='160' r='36' fill='rgba(201,138,40,0.26)'/>
+    <circle cx='190' cy='220' r='22' fill='rgba(144,112,96,0.38)'/>
+    <circle cx='92' cy='242' r='18' fill='rgba(224,192,176,0.7)'/>
+    <path d='M40 280 C 86 248, 142 284, 250 234' stroke='rgba(96,128,144,0.4)' stroke-width='2' fill='none' stroke-dasharray='5 5'/>
+    <rect x='326' y='94' width='164' height='130' rx='20' fill='rgba(224,192,176,0.18)'/>
+    <text x='340' y='122' font-family='Segoe UI, Arial, sans-serif' font-size='12' font-weight='800' fill='#608090'>Cohorts</text>
+    <rect x='342' y='150' width='18' height='58' rx='7' fill='#608090'/>
+<rect x='370' y='134' width='18' height='74' rx='7' fill='#C98A28'/>
+<rect x='426' y='142' width='18' height='66' rx='7' fill='#907060'/>
+<rect x='510' y='118' width='18' height='90' rx='7' fill='#E0C0B0'/>
+    <rect x='326' y='246' width='164' height='128' rx='20' fill='rgba(255,255,255,0.92)' stroke='rgba(96,128,144,0.12)'/>
+    <text x='340' y='274' font-family='Segoe UI, Arial, sans-serif' font-size='12' font-weight='800' fill='#608090'>Retention</text>
+    <rect x='340' y='288' width='132' height='28' rx='8' fill='rgba(255,255,255,0.72)' stroke='rgba(96,128,144,0.16)'/>
+<text x='352' y='306' font-size='12' font-weight='700' fill='#101010'>VIP - 92%</text>
+<rect x='340' y='322' width='132' height='28' rx='8' fill='rgba(255,255,255,0.72)' stroke='rgba(96,128,144,0.16)'/>
+<text x='352' y='340' font-size='12' font-weight='700' fill='#101010'>Loyal - 76%</text>
+<rect x='340' y='356' width='132' height='28' rx='8' fill='rgba(255,255,255,0.72)' stroke='rgba(96,128,144,0.16)'/>
+<text x='352' y='374' font-size='12' font-weight='700' fill='#101010'>New - 41%</text>
+  </g>
+</svg>

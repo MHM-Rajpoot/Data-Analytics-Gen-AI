@@ -1,0 +1,64 @@
+<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 960 540' role='img' aria-label='Airbnb Market Analysis Dashboard dashboard mockup'>
+  <defs>
+    <linearGradient id='bg' x1='0' y1='0' x2='1' y2='1'>
+      <stop offset='0%' stop-color='#f8f7f2'/>
+      <stop offset='55%' stop-color='#eef2f4'/>
+      <stop offset='100%' stop-color='#f9efe7'/>
+    </linearGradient>
+    <linearGradient id='hero' x1='0' y1='0' x2='1' y2='1'>
+      <stop offset='0%' stop-color='#907060'/>
+      <stop offset='55%' stop-color='#C98A28'/>
+      <stop offset='100%' stop-color='#E0C0B0'/>
+    </linearGradient>
+    <pattern id='grid' width='36' height='36' patternUnits='userSpaceOnUse'>
+      <path d='M 36 0 L 0 0 0 36' fill='none' stroke='rgba(16,16,16,0.04)' stroke-width='1'/>
+    </pattern>
+    <filter id='softShadow' x='-20%' y='-20%' width='140%' height='140%'>
+      <feDropShadow dx='0' dy='10' stdDeviation='18' flood-color='rgba(16,16,16,0.12)'/>
+    </filter>
+  </defs>
+  <rect width='960' height='540' fill='url(#bg)'/>
+  <rect width='960' height='540' fill='url(#grid)' opacity='0.5'/>
+  <circle cx='865' cy='72' r='112' fill='rgba(224,192,176,0.18)'/>
+  <circle cx='118' cy='468' r='152' fill='rgba(160,176,192,0.15)'/>
+  <rect x='34' y='28' width='892' height='484' rx='24' fill='rgba(255,255,255,0.9)' stroke='rgba(96,128,144,0.12)' filter='url(#softShadow)'/>
+  <rect x='34' y='28' width='892' height='84' rx='24' fill='url(#hero)'/>
+  <rect x='34' y='80' width='892' height='32' fill='rgba(255,255,255,0.18)'/>
+  <text x='60' y='64' font-family='Segoe UI, Arial, sans-serif' font-size='28' font-weight='800' fill='#ffffff'>Airbnb Market Analysis Dashboard</text>
+  <text x='60' y='92' font-family='Segoe UI, Arial, sans-serif' font-size='12' font-weight='700' letter-spacing='1.6' fill='rgba(255,255,255,0.9)'>Pricing, reviews, and neighborhood signals</text>
+  <text x='860' y='64' text-anchor='end' font-family='Segoe UI, Arial, sans-serif' font-size='11' font-weight='800' letter-spacing='1.6' fill='rgba(255,255,255,0.92)'>Tableau</text>
+  <g transform='translate(62,130)'>
+    <rect x='0' y='0' width='168' height='74' rx='14' fill='rgba(255,255,255,0.9)' stroke='rgba(96,128,144,0.16)'/>
+<text x='14' y='24' font-size='11' font-weight='800' letter-spacing='1.2' fill='#608090'>Listings</text>
+<text x='14' y='49' font-size='24' font-weight='800' fill='#101010'>5,480</text>
+<text x='114' y='50' font-size='12' font-weight='700' fill='#907060'>Live</text>
+<rect x='178' y='0' width='168' height='74' rx='14' fill='rgba(255,255,255,0.9)' stroke='rgba(96,128,144,0.16)'/>
+<text x='192' y='24' font-size='11' font-weight='800' letter-spacing='1.2' fill='#608090'>ADR</text>
+<text x='192' y='49' font-size='24' font-weight='800' fill='#101010'>GBP 142</text>
+<text x='292' y='50' font-size='12' font-weight='700' fill='#907060'>+5%</text>
+<rect x='534' y='0' width='168' height='74' rx='14' fill='rgba(255,255,255,0.9)' stroke='rgba(96,128,144,0.16)'/>
+<text x='548' y='24' font-size='11' font-weight='800' letter-spacing='1.2' fill='#608090'>Review</text>
+<text x='548' y='49' font-size='24' font-weight='800' fill='#101010'>4.7</text>
+<text x='648' y='50' font-size='12' font-weight='700' fill='#907060'>Strong</text>
+    <rect x='0' y='94' width='306' height='280' rx='20' fill='rgba(255,255,255,0.92)' stroke='rgba(96,128,144,0.12)'/>
+    <text x='18' y='122' font-family='Segoe UI, Arial, sans-serif' font-size='13' font-weight='800' fill='#608090'>Neighborhood map</text>
+    <circle cx='130' cy='188' r='78' fill='rgba(224,192,176,0.16)'/>
+    <circle cx='102' cy='168' r='8' fill='#608090'/><circle cx='134' cy='142' r='10' fill='#C98A28'/><circle cx='166' cy='178' r='9' fill='#907060'/><circle cx='118' cy='214' r='7' fill='#E0C0B0'/><circle cx='176' cy='220' r='8' fill='#A0B0C0'/>
+    <path d='M52 286 C 90 250, 154 304, 240 250' stroke='rgba(96,128,144,0.35)' stroke-width='3' fill='none'/>
+    <rect x='326' y='94' width='164' height='130' rx='20' fill='rgba(208,208,224,0.16)'/>
+    <text x='340' y='122' font-family='Segoe UI, Arial, sans-serif' font-size='12' font-weight='800' fill='#608090'>Price distribution</text>
+    <rect x='342' y='166' width='16' height='42' rx='7' fill='#608090'/>
+<rect x='366' y='144' width='16' height='64' rx='7' fill='#C98A28'/>
+<rect x='414' y='116' width='16' height='92' rx='7' fill='#907060'/>
+<rect x='486' y='150' width='16' height='58' rx='7' fill='#A0B0C0'/>
+<rect x='582' y='130' width='16' height='78' rx='7' fill='#E0C0B0'/>
+    <rect x='326' y='246' width='164' height='128' rx='20' fill='rgba(255,255,255,0.92)' stroke='rgba(96,128,144,0.12)'/>
+    <text x='340' y='274' font-family='Segoe UI, Arial, sans-serif' font-size='12' font-weight='800' fill='#608090'>Top neighborhoods</text>
+    <rect x='340' y='288' width='132' height='28' rx='8' fill='rgba(255,255,255,0.72)' stroke='rgba(96,128,144,0.16)'/>
+<text x='352' y='306' font-size='12' font-weight='700' fill='#101010'>Central - GBP 184</text>
+<rect x='340' y='322' width='132' height='28' rx='8' fill='rgba(255,255,255,0.72)' stroke='rgba(96,128,144,0.16)'/>
+<text x='352' y='340' font-size='12' font-weight='700' fill='#101010'>Riverside - GBP 162</text>
+<rect x='340' y='356' width='132' height='28' rx='8' fill='rgba(255,255,255,0.72)' stroke='rgba(96,128,144,0.16)'/>
+<text x='352' y='374' font-size='12' font-weight='700' fill='#101010'>Loft District - GBP 149</text>
+  </g>
+</svg>

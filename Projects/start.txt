@@ -1,0 +1,16 @@
+
+Excel – 2 Analytics Projects
+
+Power BI – 2 Dashboard/BI Projects
+
+SQL – 2 Analytical Projects
+
+Python for Data Analysis – 2 End-to-End Analytics Projects
+
+
+For each project 
+    
+    1. find datasets 
+    2. wrie step by step gyuide to build  especially excel and power BI
+
+Make .txt file for each 

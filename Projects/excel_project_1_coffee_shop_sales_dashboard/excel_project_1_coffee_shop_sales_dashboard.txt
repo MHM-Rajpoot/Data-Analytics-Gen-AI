@@ -1,0 +1,200 @@
+EXCEL PROJECT 1: COFFEE SHOP SALES DASHBOARD
+
+Dataset
+- Name: Coffee Shop Sales
+- Source: Maven Analytics Data Playground
+- Link: https://mavenanalytics.io/data-playground/coffee-shop-sales
+- Download: Open the link, click "Download dataset", unzip/download the Excel file, and save it in a project folder.
+- Notes: The data represents transactions for Maven Roasters, a fictitious coffee shop with three NYC locations. It includes transaction date, time, store location, product, quantity, and product-level sales details.
+- License listed by source: Public Domain.
+
+Project goal
+Build an Excel dashboard that helps a coffee shop manager understand sales trends, peak operating times, best/worst products, and location performance.
+
+Business questions
+- How are sales trending by month, week, and day?
+- Which weekdays and hours are busiest?
+- Which store location generates the most revenue?
+- Which product categories and products drive the most revenue?
+- Are there patterns in customer demand by time of day?
+
+Final deliverables
+- Cleaned Excel workbook.
+- Pivot-table based interactive dashboard.
+- Short insight summary with 5 to 8 business recommendations.
+- Optional PDF export of the dashboard for your portfolio.
+
+Recommended workbook structure
+- 00_ReadMe: dataset source, project objective, notes.
+- 01_Raw_Data: original table loaded from source.
+- 02_Clean_Data: cleaned table with helper columns.
+- 03_Pivots: all PivotTables.
+- 04_Dashboard: final interactive dashboard.
+- 05_Insights: written conclusions.
+
+Step-by-step build guide
+
+0. Download and save the data
+- Download the dataset from Maven Analytics.
+- Save the file as coffee_shop_sales_source.xlsx.
+- Create a new workbook named coffee_shop_sales_dashboard.xlsx.
+- Import the source table using Data > Get Data > From Workbook.
+- Load the data to a worksheet as Table and most fomating will be done automatically and also add it to the Data Model if your Excel version supports it.
+
+* This step also save the raw data in other file, cleaned data and workspce in new one.
+
+0.1. Convert the data into an Excel Table
+- Click anywhere inside the imported data.
+- Press Ctrl + T.
+- Confirm "My table has headers".
+- Rename the table to tbl_sales from Table Design > Table Name.
+
+1. Hide extra blank rows and columns
+- Go to the last used row in the sheet, press Ctrl + Shift + Down Arrow, then hide all empty rows below the data.
+- Go to the last used column in the sheet, press Ctrl + Shift + Right Arrow, then hide all empty columns to the right of the data.
+- This keeps the workbook clean and makes the dashboard area easier to work with.
+- Autofit width for coulmn 
+
+2. Datatypes COlumn for all column confirm data types and chnge them approiataley
+- after import into new file the time column is convert to folat convert to time again
+
+3. Inspect the fields
+Expected useful fields usually include:
+- transaction_id
+- transaction_date
+- transaction_time
+- store_location
+- product_category
+- product_type
+- product_detail
+- transaction_qty
+- unit_price
+
+4. Clean the data
+- Check for blank transaction IDs.
+- Check for blank dates, times, product names, quantities, or prices.
+- Format transaction_date as Date.
+- Format transaction_time as Time.
+- Format unit_price as Currency.
+- Format transaction_qty as Whole Number.
+- Remove duplicate transaction_id rows only if every other field is also duplicated.
+
+5. Add helper columns
+Create these columns in tbl_sales:
+
+Revenue
+= [@[transaction_qty]] * [@[unit_price]]
+
+Month
+= TEXT([@[transaction_date]],"mmm")
+
+Month Number
+= MONTH([@[transaction_date]])
+
+Weekday
+= TEXT([@[transaction_date]],"ddd")
+
+Weekday Number
+= WEEKDAY([@[transaction_date]],2)
+
+Hour
+= HOUR([@[transaction_time]])
+
+Daypart
+= IFS([@Hour]<7,"Early",[@Hour]<12,"Morning",[@Hour]<17,"Afternoon",[@Hour]<21,"Evening",TRUE,"Late")
+
+6. Create KPI calculations
+On a small calculation area or in PivotTables, prepare:
+- Total Revenue = sum of Revenue.
+- Total Transactions = distinct count of transaction_id, or count of rows if each row is a transaction line.
+- Total Units Sold = sum of transaction_qty.
+- Average Order Value = Total Revenue / Total Transactions.
+- Average Units per Transaction = Total Units Sold / Total Transactions.
+
+7. Build PivotTable 1: monthly sales trend
+- Insert > PivotTable from tbl_sales.
+- Rows: Month Number, then Month.
+- Values: Sum of Revenue.
+- Sort by Month Number.
+- Insert a line chart.
+- Hide Month Number from the visual if needed, but keep it for correct sorting.
+
+8. Build PivotTable 2: sales by weekday
+- Rows: Weekday Number, then Weekday.
+- Values: Sum of Revenue, Count of transaction_id.
+- Sort Monday to Sunday.
+- Insert a column chart.
+
+9. Build PivotTable 3: sales by hour
+- Rows: Hour.
+- Values: Sum of Revenue and Count of transaction_id.
+- Insert a line or column chart.
+- Use this to identify peak hours.
+
+10. Build PivotTable 4: location performance
+- Rows: store_location.
+- Values: Sum of Revenue, Count of transaction_id, Sum of transaction_qty.
+- Add calculated average order value if possible.
+- Insert a bar chart.
+
+11. Build PivotTable 5: product performance
+- Rows: product_category, product_type, product_detail.
+- Values: Sum of Revenue and Sum of transaction_qty.
+- Sort descending by revenue.
+- Add a Top 10 filter on product_detail.
+- Insert a horizontal bar chart.
+
+12. Build PivotTable 6: weekday and hour heatmap
+- Rows: Weekday.
+- Columns: Hour.
+- Values: Count of transaction_id or Sum of Revenue.
+- Apply Conditional Formatting > Color Scales.
+- This becomes the dashboard's peak demand heatmap.
+
+13. Create slicers
+- Select any PivotTable.
+- Insert Slicer for store_location, product_category, product_type, and Daypart.
+- Insert Timeline for transaction_date if available.
+- Connect each slicer to all PivotTables using Slicer > Report Connections.
+
+14. Design the dashboard sheet
+Suggested layout:
+- Top row: title and slicers.
+- KPI row: Total Revenue, Transactions, Units Sold, Average Order Value.
+- Middle left: monthly revenue trend.
+- Middle right: location revenue comparison.
+- Bottom left: weekday/hour heatmap.
+- Bottom right: top products by revenue.
+
+15. Format the dashboard
+- Use one font family throughout.
+- Use currency formatting for revenue.
+- Use comma formatting for counts.
+- Remove gridlines from the dashboard sheet.
+- Keep chart titles short and business-focused.
+- Use a consistent color for revenue visuals.
+- Use accent colors only for highlights.
+
+16. Add insight notes
+Create a small text box or separate Insights sheet with:
+- Best performing location.
+- Highest sales month.
+- Busiest weekday.
+- Busiest hour range.
+- Top product category.
+- One staffing recommendation.
+- One inventory recommendation.
+
+Portfolio story
+Frame this as: "I built an Excel sales dashboard for a multi-location coffee shop to identify revenue trends, peak operating periods, and product performance opportunities."
+
+Skills demonstrated
+- Excel Tables
+- Power Query import
+- Data cleaning
+- Helper columns and formulas
+- PivotTables and PivotCharts
+- Slicers and timelines
+- Dashboard design
+- Business insight writing
+

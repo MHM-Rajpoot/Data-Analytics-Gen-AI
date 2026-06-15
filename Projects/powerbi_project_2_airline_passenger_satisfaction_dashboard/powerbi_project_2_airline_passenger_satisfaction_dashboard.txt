@@ -1,0 +1,224 @@
+POWER BI PROJECT 2: AIRLINE PASSENGER SATISFACTION DASHBOARD
+
+Dataset
+- Name: Airline Passenger Satisfaction
+- Source: Maven Analytics Data Playground
+- Link: https://mavenanalytics.io/data-playground/airline-passenger-satisfaction
+- Download: Open the link, click "Download dataset", download the CSV, and save it in a project folder.
+- Notes: Maven describes it as customer satisfaction scores from 120,000+ airline passengers, including passenger details, flight details, travel type, and service ratings.
+- License listed by source: Public Domain.
+
+Project goal
+Build a Power BI dashboard that helps an airline understand satisfaction drivers, dissatisfied customer groups, delay impact, and service areas to improve.
+
+Business questions
+- What percentage of passengers are satisfied?
+- How does satisfaction vary by customer type, travel type, and class?
+- Do flight distance and delays affect satisfaction?
+- Which service ratings are most strongly associated with satisfaction?
+- Which customer segment should the airline prioritize?
+
+Final deliverables
+- Power BI .pbix file.
+- 3-page report: Satisfaction Overview, Service Drivers, Customer Segments.
+- DAX measure table.
+- Written improvement recommendations.
+
+Step-by-step build guide
+
+1. Download and import the data
+- Download the CSV from Maven Analytics.
+- Open Power BI Desktop.
+- Home > Get Data > Text/CSV.
+- Select the airline passenger satisfaction CSV.
+- Click Transform Data.
+
+2. Clean data in Power Query
+- Rename the query to Passenger Survey.
+- Remove unnecessary index columns if present.
+- Set data types:
+  - Age: Whole Number
+  - Flight Distance: Whole Number
+  - Departure Delay: Whole Number or Decimal Number
+  - Arrival Delay: Whole Number or Decimal Number
+  - Service rating columns: Whole Number
+  - satisfaction: Text
+  - Customer Type, Type of Travel, Class, Gender: Text
+- Replace errors in Arrival Delay with null only if errors exist.
+- Remove duplicate passenger records only if every field is identical.
+
+3. Standardize text categories
+Use Transform > Format > Trim and Clean for text fields.
+Check category spelling for:
+- satisfied
+- neutral or dissatisfied
+- Loyal Customer
+- disloyal Customer
+- Business travel
+- Personal Travel
+- Eco, Eco Plus, Business
+
+4. Add age groups in Power Query
+Add Column > Conditional Column:
+- Under 25
+- 25-34
+- 35-44
+- 45-54
+- 55+
+
+5. Add delay groups in Power Query
+Create a column called Delay Group:
+- 0 minutes
+- 1-15 minutes
+- 16-30 minutes
+- 31-60 minutes
+- 60+ minutes
+
+6. Add service score average
+Create a custom column called Overall Service Score.
+Average the available service rating fields, such as:
+- Inflight wifi service
+- Departure/Arrival time convenient
+- Ease of Online booking
+- Gate location
+- Food and drink
+- Online boarding
+- Seat comfort
+- Inflight entertainment
+- On-board service
+- Leg room service
+- Baggage handling
+- Checkin service
+- Inflight service
+- Cleanliness
+
+If Power Query formulas feel easier:
+- Select the service rating columns.
+- Add Column > Statistics > Average.
+
+7. Close and apply
+- Click Close & Apply.
+- Confirm the table loads successfully.
+
+8. Create a Measures table
+- Home > Enter Data.
+- Create a blank table named Measures.
+- Hide the placeholder column.
+
+9. Create core DAX measures
+
+Passengers =
+COUNTROWS('Passenger Survey')
+
+Satisfied Passengers =
+CALCULATE([Passengers], 'Passenger Survey'[satisfaction] = "satisfied")
+
+Dissatisfied Passengers =
+[Passengers] - [Satisfied Passengers]
+
+Satisfaction Rate =
+DIVIDE([Satisfied Passengers], [Passengers])
+
+Dissatisfaction Rate =
+DIVIDE([Dissatisfied Passengers], [Passengers])
+
+Average Age =
+AVERAGE('Passenger Survey'[Age])
+
+Average Flight Distance =
+AVERAGE('Passenger Survey'[Flight Distance])
+
+Average Departure Delay =
+AVERAGE('Passenger Survey'[Departure Delay in Minutes])
+
+Average Arrival Delay =
+AVERAGE('Passenger Survey'[Arrival Delay in Minutes])
+
+Average Service Score =
+AVERAGE('Passenger Survey'[Overall Service Score])
+
+10. Page 1: Satisfaction Overview
+Add visuals:
+- Card: Passengers.
+- Card: Satisfaction Rate.
+- Card: Dissatisfied Passengers.
+- Card: Average Service Score.
+- Donut chart: satisfaction split.
+- Bar chart: Satisfaction Rate by Class.
+- Bar chart: Satisfaction Rate by Customer Type.
+- Column chart: Satisfaction Rate by Type of Travel.
+- Slicer: Gender.
+- Slicer: Age Group.
+- Slicer: Class.
+
+11. Page 2: Service Drivers
+Add visuals:
+- Matrix: service rating fields as rows with average score and satisfaction rate.
+- Bar chart: Satisfaction Rate by Online boarding score.
+- Bar chart: Satisfaction Rate by Inflight wifi score.
+- Scatter chart: Overall Service Score vs Satisfaction Rate by segment.
+- Line/column chart: Satisfaction Rate by Delay Group.
+
+Recommended technique:
+- If service rating columns are wide, unpivot them in Power Query.
+- Select all service rating columns.
+- Transform > Unpivot Columns.
+- Rename Attribute to Service Area.
+- Rename Value to Service Score.
+- This creates easier visuals for service area comparison.
+
+12. Page 3: Customer Segments
+Add visuals:
+- Matrix: Customer Type x Class with Passengers and Satisfaction Rate.
+- Bar chart: Satisfaction Rate by Age Group.
+- Bar chart: Dissatisfied Passengers by Type of Travel.
+- Scatter chart: Flight Distance vs Satisfaction Rate by Class.
+- Table: worst-performing segments ranked by passenger count and dissatisfaction rate.
+
+13. Create a segment risk measure
+
+Dissatisfaction Count =
+[Dissatisfied Passengers]
+
+Segment Priority Score =
+[Dissatisfaction Rate] * [Passengers]
+
+Use Segment Priority Score to identify segments where dissatisfaction is both high and commercially important.
+
+14. Add drill-through page
+- Create a page called Segment Detail.
+- Add Class, Customer Type, or Type of Travel to Drill-through fields.
+- Add KPIs, service score breakdown, and delay chart.
+- Test by right-clicking a segment on Page 1 or Page 3.
+
+15. Add conditional formatting
+- Matrix satisfaction rate: red for low, green for high.
+- Delay group chart: use stronger color for high delay bands.
+- Segment priority table: use data bars.
+
+16. Validate the dashboard
+- Click each slicer and confirm KPIs respond.
+- Confirm Satisfaction Rate = Satisfied Passengers / Passengers.
+- Check that delay groups are sorted logically.
+- Make sure charts have readable titles and labels.
+
+17. Write final recommendations
+Examples of recommendations to look for:
+- Improve service areas with low average scores and low satisfaction.
+- Prioritize dissatisfied business travelers if they are high value.
+- Investigate delay bands where satisfaction falls sharply.
+- Compare loyal vs disloyal customers to separate retention issues from acquisition issues.
+- Improve online boarding or inflight wifi if they show a strong satisfaction gap.
+
+Portfolio story
+Frame this as: "I built a Power BI customer experience dashboard to identify satisfaction drivers and prioritize airline service improvements."
+
+Skills demonstrated
+- Power Query cleaning
+- Category engineering
+- DAX measures
+- KPI design
+- Drill-through analysis
+- Segment prioritization
+- Customer experience analytics
+

@@ -1,0 +1,239 @@
+PYTHON PROJECT 2: ONLINE RETAIL CUSTOMER SEGMENTATION
+
+Dataset
+- Name: Online Retail
+- Source: UCI Machine Learning Repository
+- Link: https://archive.ics.uci.edu/dataset/352/online+retail
+- Download: Use the UCI page download button, or use the ucimlrepo Python package with dataset id 352.
+- Notes: The dataset contains transactions from 01/12/2010 to 09/12/2011 for a UK-based non-store online retailer. UCI lists 541,909 instances. Fields include invoice number, product code, description, quantity, invoice date, unit price, customer ID, and country.
+- License listed by source: Creative Commons Attribution 4.0 International.
+
+Project goal
+Build an end-to-end Python analytics project that cleans online retail transactions, calculates sales KPIs, creates RFM customer segments, and recommends retention actions.
+
+Business questions
+- What are total revenue, order volume, customer count, and average order value?
+- Which countries generate the most revenue?
+- Which products sell the most?
+- Which customers are most valuable?
+- How can customers be segmented using Recency, Frequency, and Monetary value?
+- What actions should the business take for each customer segment?
+
+Final deliverables
+- Jupyter notebook.
+- Cleaned transaction CSV.
+- RFM customer segmentation CSV.
+- EDA charts.
+- Written customer strategy recommendations.
+
+Recommended folder structure
+- online_retail_project/
+- data/raw/
+- data/processed/
+- notebooks/
+- outputs/charts/
+- outputs/tables/
+- README.md
+
+Setup
+
+1. Create a virtual environment
+
+python -m venv .venv
+.venv\Scripts\activate
+
+2. Install packages
+
+pip install pandas numpy matplotlib seaborn scikit-learn openpyxl ucimlrepo
+
+3. Import libraries
+
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+from sklearn.preprocessing import StandardScaler
+from sklearn.cluster import KMeans
+
+4. Load the data
+Option A: download Online Retail.xlsx manually:
+
+df = pd.read_excel("data/raw/Online Retail.xlsx")
+
+Option B: use ucimlrepo:
+
+from ucimlrepo import fetch_ucirepo
+online_retail = fetch_ucirepo(id=352)
+df = online_retail.data.features.copy()
+
+5. Initial inspection
+
+df.head()
+df.info()
+df.describe()
+df.isna().sum()
+df.duplicated().sum()
+
+6. Clean column names
+
+df.columns = (
+    df.columns
+    .str.strip()
+    .str.lower()
+    .str.replace(" ", "_")
+)
+
+7. Clean transactions
+Recommended cleaning rules:
+- Remove rows with blank customer_id for customer segmentation.
+- Remove cancelled invoices where invoice_no starts with "C".
+- Remove quantity <= 0.
+- Remove unit_price <= 0.
+- Remove duplicate rows.
+- Convert invoice_date to datetime.
+
+Example:
+
+df["invoice_date"] = pd.to_datetime(df["invoice_date"])
+df = df.dropna(subset=["customer_id"])
+df = df[~df["invoice_no"].astype(str).str.startswith("C")]
+df = df[(df["quantity"] > 0) & (df["unit_price"] > 0)]
+df = df.drop_duplicates()
+
+8. Create revenue fields
+
+df["revenue"] = df["quantity"] * df["unit_price"]
+df["invoice_month"] = df["invoice_date"].dt.to_period("M").astype(str)
+df["invoice_date_only"] = df["invoice_date"].dt.date
+
+9. Calculate core KPIs
+
+total_revenue = df["revenue"].sum()
+orders = df["invoice_no"].nunique()
+customers = df["customer_id"].nunique()
+avg_order_value = total_revenue / orders
+
+print(total_revenue, orders, customers, avg_order_value)
+
+10. Exploratory data analysis
+Create charts:
+- Monthly revenue trend.
+- Top 10 countries by revenue.
+- Top 10 products by revenue.
+- Top 10 products by quantity.
+- Order count by month.
+- Revenue distribution by customer.
+
+Example:
+
+monthly_revenue = df.groupby("invoice_month")["revenue"].sum().reset_index()
+sns.lineplot(data=monthly_revenue, x="invoice_month", y="revenue")
+plt.xticks(rotation=45)
+plt.title("Monthly Revenue Trend")
+plt.savefig("outputs/charts/monthly_revenue.png", dpi=150, bbox_inches="tight")
+
+11. Build the RFM table
+Choose a snapshot date one day after the last invoice date:
+
+snapshot_date = df["invoice_date"].max() + pd.Timedelta(days=1)
+
+rfm = df.groupby("customer_id").agg({
+    "invoice_date": lambda x: (snapshot_date - x.max()).days,
+    "invoice_no": "nunique",
+    "revenue": "sum"
+}).reset_index()
+
+rfm.columns = ["customer_id", "recency", "frequency", "monetary"]
+
+12. Score RFM
+Use quartile scoring:
+
+rfm["r_score"] = pd.qcut(rfm["recency"], 4, labels=[4, 3, 2, 1])
+rfm["f_score"] = pd.qcut(rfm["frequency"].rank(method="first"), 4, labels=[1, 2, 3, 4])
+rfm["m_score"] = pd.qcut(rfm["monetary"], 4, labels=[1, 2, 3, 4])
+
+rfm["rfm_score"] = (
+    rfm["r_score"].astype(str)
+    + rfm["f_score"].astype(str)
+    + rfm["m_score"].astype(str)
+)
+
+13. Create customer segments
+Simple rule-based segments:
+
+def segment_customer(row):
+    r = int(row["r_score"])
+    f = int(row["f_score"])
+    m = int(row["m_score"])
+    if r >= 4 and f >= 4 and m >= 4:
+        return "Champions"
+    if r >= 3 and f >= 3 and m >= 3:
+        return "Loyal Customers"
+    if r >= 3 and f <= 2:
+        return "New or Promising"
+    if r <= 2 and f >= 3 and m >= 3:
+        return "At Risk High Value"
+    if r <= 2 and f <= 2:
+        return "Hibernating"
+    return "Needs Attention"
+
+rfm["segment"] = rfm.apply(segment_customer, axis=1)
+
+14. Optional: KMeans segmentation
+
+rfm_model = rfm[["recency", "frequency", "monetary"]].copy()
+rfm_model["monetary"] = np.log1p(rfm_model["monetary"])
+rfm_model["frequency"] = np.log1p(rfm_model["frequency"])
+
+scaler = StandardScaler()
+rfm_scaled = scaler.fit_transform(rfm_model)
+
+kmeans = KMeans(n_clusters=4, random_state=42, n_init=10)
+rfm["cluster"] = kmeans.fit_predict(rfm_scaled)
+
+15. Analyze segments
+Create a segment summary:
+
+segment_summary = rfm.groupby("segment").agg({
+    "customer_id": "count",
+    "recency": "mean",
+    "frequency": "mean",
+    "monetary": ["mean", "sum"]
+}).round(2)
+
+print(segment_summary)
+
+16. Visualize RFM results
+Charts:
+- Customer count by segment.
+- Revenue by segment.
+- Average recency/frequency/monetary by segment.
+- Scatter plot: frequency vs monetary, colored by segment.
+
+17. Export outputs
+
+df.to_csv("data/processed/online_retail_cleaned.csv", index=False)
+rfm.to_csv("outputs/tables/customer_rfm_segments.csv", index=False)
+segment_summary.to_csv("outputs/tables/segment_summary.csv")
+
+18. Write recommendations
+Example actions:
+- Champions: reward with VIP offers and early product access.
+- Loyal Customers: cross-sell complementary products.
+- New or Promising: encourage second purchase with targeted offers.
+- At Risk High Value: win-back campaign with personal discount or reminder.
+- Hibernating: low-cost reactivation email or suppress if unresponsive.
+
+Portfolio story
+Frame this as: "I cleaned online retail transaction data and built RFM customer segmentation to support targeted retention and revenue growth strategies."
+
+Skills demonstrated
+- Python data cleaning
+- Excel file ingestion
+- Sales KPI analysis
+- Time-series EDA
+- Customer segmentation
+- RFM methodology
+- KMeans clustering
+- Business recommendation writing
+

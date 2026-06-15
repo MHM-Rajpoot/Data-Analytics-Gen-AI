@@ -1,0 +1,555 @@
+SQL PROJECT 2: MEDICAL HOSPITAL READMISSIONS AND QUALITY ANALYSIS
+
+Dataset
+- Name 1: Hospital General Information
+- Source: Centers for Medicare & Medicaid Services Provider Data Catalog
+- Dataset page: https://data.cms.gov/provider-data/dataset/xubh-q36u
+- Direct CSV API: https://data.cms.gov/provider-data/api/1/datastore/query/xubh-q36u/0?format=csv
+
+- Name 2: Hospital Readmissions Reduction Program
+- Source: Centers for Medicare & Medicaid Services Provider Data Catalog
+- Dataset page: https://data.cms.gov/provider-data/dataset/9n3s-kdb3
+- Direct CSV API: https://data.cms.gov/provider-data/api/1/datastore/query/9n3s-kdb3/0?format=csv
+
+- Notes: These are public, non-patient-level datasets. They do not contain individual patient records, protected health information, or personally identifiable patient data. The project analyzes hospital-level quality and readmission performance.
+
+Project goal
+Use SQL to analyze hospital quality ratings, ownership, emergency services, readmission ratios, predicted readmission rates, expected readmission rates, and performance differences by state and medical condition.
+
+Recommended tools
+- MySQL Community Server
+- MySQL Workbench
+- Optional: DBeaver connected to MySQL
+- Optional: Excel or Power BI for visualizing exported query results
+
+Medical analytics questions
+- Which states have the highest and lowest average hospital ratings?
+- Which hospital ownership types have the strongest quality ratings?
+- Which hospitals have the most readmission measures marked worse than average?
+- Which medical conditions have the highest excess readmission ratios?
+- Which hospitals have predicted readmission rates above expected rates?
+- How does hospital overall rating relate to readmission performance?
+- Do emergency-service hospitals have different readmission patterns?
+- Which hospitals should be prioritized for readmission reduction programs?
+
+Final deliverables
+- SQL script with schema, cleaning views, and analysis queries.
+- Exported result tables.
+- Optional Excel or Power BI dashboard from query outputs.
+- Written healthcare operations recommendations.
+
+Important note
+This project is for analytics education and portfolio demonstration only. It should not be used to make clinical decisions.
+
+Recommended folder structure
+- medical_sql_project/
+- data/raw/
+- sql/
+- outputs/csv_exports/
+- README.md
+
+Setup steps
+
+1. Download the datasets
+
+Option A: Browser download
+- Open the Hospital General Information dataset page.
+- Click Download, then download the full dataset as CSV.
+- Save it as:
+  - data/raw/hospital_general_information.csv
+- Open the Hospital Readmissions Reduction Program dataset page.
+- Click Download, then download the full dataset as CSV.
+- Save it as:
+  - data/raw/hospital_readmissions_reduction_program.csv
+
+Option B: Direct CSV API links
+- Hospital General Information:
+  - https://data.cms.gov/provider-data/api/1/datastore/query/xubh-q36u/0?format=csv
+- Hospital Readmissions Reduction Program:
+  - https://data.cms.gov/provider-data/api/1/datastore/query/9n3s-kdb3/0?format=csv
+
+2. Create the database
+
+CREATE DATABASE medical_quality_analysis;
+USE medical_quality_analysis;
+
+3. Create raw staging tables
+
+CREATE TABLE hospital_general_raw (
+    facility_id VARCHAR(20),
+    facility_name VARCHAR(255),
+    address VARCHAR(255),
+    citytown VARCHAR(120),
+    state VARCHAR(10),
+    zip_code VARCHAR(20),
+    countyparish VARCHAR(120),
+    telephone_number VARCHAR(50),
+    hospital_type VARCHAR(120),
+    hospital_ownership VARCHAR(160),
+    emergency_services VARCHAR(20),
+    birthing_friendly VARCHAR(20),
+    hospital_overall_rating VARCHAR(20),
+    hospital_overall_rating_footnote TEXT,
+    mort_group_measure_count VARCHAR(20),
+    count_of_facility_mort_measures VARCHAR(20),
+    count_of_mort_measures_better VARCHAR(20),
+    count_of_mort_measures_no_different VARCHAR(20),
+    count_of_mort_measures_worse VARCHAR(20),
+    mort_group_footnote TEXT,
+    safety_group_measure_count VARCHAR(20),
+    count_of_facility_safety_measures VARCHAR(20),
+    count_of_safety_measures_better VARCHAR(20),
+    count_of_safety_measures_no_different VARCHAR(20),
+    count_of_safety_measures_worse VARCHAR(20),
+    safety_group_footnote TEXT,
+    readm_group_measure_count VARCHAR(20),
+    count_of_facility_readm_measures VARCHAR(20),
+    count_of_readm_measures_better VARCHAR(20),
+    count_of_readm_measures_no_different VARCHAR(20),
+    count_of_readm_measures_worse VARCHAR(20),
+    readm_group_footnote TEXT,
+    pt_exp_group_measure_count VARCHAR(20),
+    count_of_facility_pt_exp_measures VARCHAR(20),
+    pt_exp_group_footnote TEXT,
+    te_group_measure_count VARCHAR(20),
+    count_of_facility_te_measures VARCHAR(20),
+    te_group_footnote TEXT
+);
+
+CREATE TABLE hospital_readmissions_raw (
+    facility_name VARCHAR(255),
+    facility_id VARCHAR(20),
+    state VARCHAR(10),
+    measure_name VARCHAR(120),
+    number_of_discharges VARCHAR(50),
+    footnote TEXT,
+    excess_readmission_ratio VARCHAR(50),
+    predicted_readmission_rate VARCHAR(50),
+    expected_readmission_rate VARCHAR(50),
+    number_of_readmissions VARCHAR(50),
+    start_date VARCHAR(20),
+    end_date VARCHAR(20)
+);
+
+4. Import the CSV files into MySQL
+
+Use MySQL Workbench, DBeaver, or LOAD DATA LOCAL INFILE.
+
+Example:
+
+LOAD DATA LOCAL INFILE 'C:/path/to/data/raw/hospital_general_information.csv'
+INTO TABLE hospital_general_raw
+FIELDS TERMINATED BY ','
+ENCLOSED BY '"'
+LINES TERMINATED BY '\n'
+IGNORE 1 ROWS;
+
+LOAD DATA LOCAL INFILE 'C:/path/to/data/raw/hospital_readmissions_reduction_program.csv'
+INTO TABLE hospital_readmissions_raw
+FIELDS TERMINATED BY ','
+ENCLOSED BY '"'
+LINES TERMINATED BY '\n'
+IGNORE 1 ROWS;
+
+If your import has line-ending issues on Windows, change:
+
+LINES TERMINATED BY '\n'
+
+to:
+
+LINES TERMINATED BY '\r\n'
+
+5. Confirm the import
+
+SELECT COUNT(*) AS hospital_rows
+FROM hospital_general_raw;
+
+SELECT COUNT(*) AS readmission_rows
+FROM hospital_readmissions_raw;
+
+SELECT *
+FROM hospital_general_raw
+LIMIT 5;
+
+SELECT *
+FROM hospital_readmissions_raw
+LIMIT 5;
+
+6. Understand the key tables
+
+- hospital_general_raw: hospital location, type, ownership, emergency services, overall rating, and quality measure group counts.
+- hospital_readmissions_raw: hospital-level readmission measures, predicted and expected readmission rates, excess readmission ratio, discharges, and readmission counts.
+- facility_id: main join key between both tables.
+- measure_name: readmission condition or procedure measure, such as heart failure, pneumonia, COPD, hip/knee, or CABG.
+- excess_readmission_ratio: ratio above 1.0 indicates predicted readmissions are higher than expected.
+
+7. Create cleaned views
+
+CREATE OR REPLACE VIEW hospital_general_clean AS
+SELECT
+    facility_id,
+    facility_name,
+    address,
+    citytown,
+    state,
+    zip_code,
+    countyparish,
+    telephone_number,
+    hospital_type,
+    hospital_ownership,
+    emergency_services,
+    birthing_friendly,
+    CASE
+        WHEN hospital_overall_rating REGEXP '^[0-9]+$'
+        THEN CAST(hospital_overall_rating AS UNSIGNED)
+        ELSE NULL
+    END AS hospital_overall_rating,
+    CASE
+        WHEN count_of_readm_measures_better REGEXP '^[0-9]+$'
+        THEN CAST(count_of_readm_measures_better AS UNSIGNED)
+        ELSE NULL
+    END AS readm_measures_better,
+    CASE
+        WHEN count_of_readm_measures_no_different REGEXP '^[0-9]+$'
+        THEN CAST(count_of_readm_measures_no_different AS UNSIGNED)
+        ELSE NULL
+    END AS readm_measures_no_different,
+    CASE
+        WHEN count_of_readm_measures_worse REGEXP '^[0-9]+$'
+        THEN CAST(count_of_readm_measures_worse AS UNSIGNED)
+        ELSE NULL
+    END AS readm_measures_worse,
+    CASE
+        WHEN count_of_safety_measures_better REGEXP '^[0-9]+$'
+        THEN CAST(count_of_safety_measures_better AS UNSIGNED)
+        ELSE NULL
+    END AS safety_measures_better,
+    CASE
+        WHEN count_of_safety_measures_worse REGEXP '^[0-9]+$'
+        THEN CAST(count_of_safety_measures_worse AS UNSIGNED)
+        ELSE NULL
+    END AS safety_measures_worse
+FROM hospital_general_raw;
+
+CREATE OR REPLACE VIEW hospital_readmissions_clean AS
+SELECT
+    facility_name,
+    facility_id,
+    state,
+    measure_name,
+    CASE
+        WHEN number_of_discharges REGEXP '^[0-9]+$'
+        THEN CAST(number_of_discharges AS UNSIGNED)
+        ELSE NULL
+    END AS number_of_discharges,
+    CASE
+        WHEN excess_readmission_ratio REGEXP '^[0-9]+(\\.[0-9]+)?$'
+        THEN CAST(excess_readmission_ratio AS DECIMAL(10,4))
+        ELSE NULL
+    END AS excess_readmission_ratio,
+    CASE
+        WHEN predicted_readmission_rate REGEXP '^[0-9]+(\\.[0-9]+)?$'
+        THEN CAST(predicted_readmission_rate AS DECIMAL(10,4))
+        ELSE NULL
+    END AS predicted_readmission_rate,
+    CASE
+        WHEN expected_readmission_rate REGEXP '^[0-9]+(\\.[0-9]+)?$'
+        THEN CAST(expected_readmission_rate AS DECIMAL(10,4))
+        ELSE NULL
+    END AS expected_readmission_rate,
+    CASE
+        WHEN number_of_readmissions REGEXP '^[0-9]+$'
+        THEN CAST(number_of_readmissions AS UNSIGNED)
+        ELSE NULL
+    END AS number_of_readmissions,
+    STR_TO_DATE(start_date, '%m/%d/%Y') AS start_date,
+    STR_TO_DATE(end_date, '%m/%d/%Y') AS end_date
+FROM hospital_readmissions_raw;
+
+Core SQL queries
+
+1. Hospital count and average rating by state
+
+SELECT
+    state,
+    COUNT(*) AS hospital_count,
+    ROUND(AVG(hospital_overall_rating), 2) AS avg_overall_rating,
+    SUM(CASE WHEN hospital_overall_rating >= 4 THEN 1 ELSE 0 END) AS high_rated_hospitals,
+    SUM(CASE WHEN hospital_overall_rating <= 2 THEN 1 ELSE 0 END) AS low_rated_hospitals
+FROM hospital_general_clean
+WHERE hospital_overall_rating IS NOT NULL
+GROUP BY state
+ORDER BY avg_overall_rating DESC, hospital_count DESC;
+
+2. Hospital ownership and quality rating
+
+SELECT
+    hospital_ownership,
+    COUNT(*) AS hospital_count,
+    ROUND(AVG(hospital_overall_rating), 2) AS avg_overall_rating,
+    ROUND(SUM(CASE WHEN hospital_overall_rating >= 4 THEN 1 ELSE 0 END) / COUNT(*) * 100, 2) AS pct_high_rated
+FROM hospital_general_clean
+WHERE hospital_overall_rating IS NOT NULL
+GROUP BY hospital_ownership
+HAVING hospital_count >= 20
+ORDER BY avg_overall_rating DESC;
+
+3. Hospitals with worse-than-average readmission measure counts
+
+SELECT
+    facility_id,
+    facility_name,
+    citytown,
+    state,
+    hospital_type,
+    hospital_ownership,
+    hospital_overall_rating,
+    readm_measures_better,
+    readm_measures_no_different,
+    readm_measures_worse
+FROM hospital_general_clean
+WHERE readm_measures_worse IS NOT NULL
+ORDER BY readm_measures_worse DESC, hospital_overall_rating ASC
+LIMIT 25;
+
+4. Readmission performance by medical condition
+
+SELECT
+    measure_name,
+    COUNT(*) AS hospital_measure_rows,
+    ROUND(AVG(excess_readmission_ratio), 4) AS avg_excess_readmission_ratio,
+    ROUND(AVG(predicted_readmission_rate), 2) AS avg_predicted_readmission_rate,
+    ROUND(AVG(expected_readmission_rate), 2) AS avg_expected_readmission_rate
+FROM hospital_readmissions_clean
+WHERE excess_readmission_ratio IS NOT NULL
+GROUP BY measure_name
+ORDER BY avg_excess_readmission_ratio DESC;
+
+5. Hospitals with excess readmission ratio above 1.0
+
+SELECT
+    r.facility_id,
+    r.facility_name,
+    r.state,
+    r.measure_name,
+    r.excess_readmission_ratio,
+    r.predicted_readmission_rate,
+    r.expected_readmission_rate,
+    r.number_of_discharges,
+    r.number_of_readmissions
+FROM hospital_readmissions_clean r
+WHERE r.excess_readmission_ratio > 1
+ORDER BY r.excess_readmission_ratio DESC
+LIMIT 50;
+
+6. State-level excess readmission ratio by condition
+
+SELECT
+    state,
+    measure_name,
+    COUNT(*) AS hospital_measure_rows,
+    ROUND(AVG(excess_readmission_ratio), 4) AS avg_excess_readmission_ratio,
+    SUM(CASE WHEN excess_readmission_ratio > 1 THEN 1 ELSE 0 END) AS hospitals_above_expected
+FROM hospital_readmissions_clean
+WHERE excess_readmission_ratio IS NOT NULL
+GROUP BY state, measure_name
+HAVING hospital_measure_rows >= 10
+ORDER BY avg_excess_readmission_ratio DESC;
+
+7. Join hospital ratings with readmission ratios
+
+SELECT
+    h.facility_id,
+    h.facility_name,
+    h.citytown,
+    h.state,
+    h.hospital_type,
+    h.hospital_ownership,
+    h.emergency_services,
+    h.hospital_overall_rating,
+    ROUND(AVG(r.excess_readmission_ratio), 4) AS avg_excess_readmission_ratio,
+    COUNT(r.measure_name) AS readmission_measure_count,
+    SUM(CASE WHEN r.excess_readmission_ratio > 1 THEN 1 ELSE 0 END) AS measures_above_expected
+FROM hospital_general_clean h
+JOIN hospital_readmissions_clean r
+    ON h.facility_id = r.facility_id
+WHERE r.excess_readmission_ratio IS NOT NULL
+GROUP BY
+    h.facility_id,
+    h.facility_name,
+    h.citytown,
+    h.state,
+    h.hospital_type,
+    h.hospital_ownership,
+    h.emergency_services,
+    h.hospital_overall_rating
+ORDER BY measures_above_expected DESC, avg_excess_readmission_ratio DESC
+LIMIT 50;
+
+8. Overall rating versus readmission performance
+
+SELECT
+    h.hospital_overall_rating,
+    COUNT(DISTINCT h.facility_id) AS hospital_count,
+    ROUND(AVG(r.excess_readmission_ratio), 4) AS avg_excess_readmission_ratio,
+    ROUND(AVG(r.predicted_readmission_rate), 2) AS avg_predicted_readmission_rate,
+    ROUND(AVG(r.expected_readmission_rate), 2) AS avg_expected_readmission_rate
+FROM hospital_general_clean h
+JOIN hospital_readmissions_clean r
+    ON h.facility_id = r.facility_id
+WHERE
+    h.hospital_overall_rating IS NOT NULL
+    AND r.excess_readmission_ratio IS NOT NULL
+GROUP BY h.hospital_overall_rating
+ORDER BY h.hospital_overall_rating DESC;
+
+9. Emergency services versus readmission performance
+
+SELECT
+    h.emergency_services,
+    COUNT(DISTINCT h.facility_id) AS hospital_count,
+    ROUND(AVG(h.hospital_overall_rating), 2) AS avg_overall_rating,
+    ROUND(AVG(r.excess_readmission_ratio), 4) AS avg_excess_readmission_ratio,
+    SUM(CASE WHEN r.excess_readmission_ratio > 1 THEN 1 ELSE 0 END) AS measures_above_expected
+FROM hospital_general_clean h
+JOIN hospital_readmissions_clean r
+    ON h.facility_id = r.facility_id
+WHERE r.excess_readmission_ratio IS NOT NULL
+GROUP BY h.emergency_services
+ORDER BY avg_excess_readmission_ratio DESC;
+
+10. Highest readmission risk hospitals by state
+
+WITH hospital_readmission_summary AS (
+    SELECT
+        h.facility_id,
+        h.facility_name,
+        h.citytown,
+        h.state,
+        h.hospital_overall_rating,
+        ROUND(AVG(r.excess_readmission_ratio), 4) AS avg_excess_readmission_ratio,
+        SUM(CASE WHEN r.excess_readmission_ratio > 1 THEN 1 ELSE 0 END) AS measures_above_expected
+    FROM hospital_general_clean h
+    JOIN hospital_readmissions_clean r
+        ON h.facility_id = r.facility_id
+    WHERE r.excess_readmission_ratio IS NOT NULL
+    GROUP BY
+        h.facility_id,
+        h.facility_name,
+        h.citytown,
+        h.state,
+        h.hospital_overall_rating
+),
+ranked_hospitals AS (
+    SELECT
+        *,
+        ROW_NUMBER() OVER (
+            PARTITION BY state
+            ORDER BY measures_above_expected DESC, avg_excess_readmission_ratio DESC
+        ) AS state_rank
+    FROM hospital_readmission_summary
+)
+SELECT *
+FROM ranked_hospitals
+WHERE state_rank <= 5
+ORDER BY state, state_rank;
+
+11. Readmission volume by condition
+
+SELECT
+    measure_name,
+    SUM(number_of_discharges) AS total_discharges,
+    SUM(number_of_readmissions) AS total_readmissions,
+    ROUND(SUM(number_of_readmissions) / NULLIF(SUM(number_of_discharges), 0) * 100, 2) AS calculated_readmission_rate
+FROM hospital_readmissions_clean
+WHERE
+    number_of_discharges IS NOT NULL
+    AND number_of_readmissions IS NOT NULL
+GROUP BY measure_name
+ORDER BY calculated_readmission_rate DESC;
+
+12. Create a dashboard-ready summary view
+
+CREATE OR REPLACE VIEW hospital_readmission_dashboard AS
+SELECT
+    h.facility_id,
+    h.facility_name,
+    h.citytown,
+    h.state,
+    h.hospital_type,
+    h.hospital_ownership,
+    h.emergency_services,
+    h.hospital_overall_rating,
+    r.measure_name,
+    r.number_of_discharges,
+    r.number_of_readmissions,
+    r.excess_readmission_ratio,
+    r.predicted_readmission_rate,
+    r.expected_readmission_rate,
+    CASE
+        WHEN r.excess_readmission_ratio > 1 THEN 'Above Expected'
+        WHEN r.excess_readmission_ratio <= 1 THEN 'At or Below Expected'
+        ELSE 'Not Reported'
+    END AS readmission_status
+FROM hospital_general_clean h
+JOIN hospital_readmissions_clean r
+    ON h.facility_id = r.facility_id;
+
+Advanced analysis ideas
+- Use window functions to rank hospitals within each state.
+- Compare readmission performance by ownership type.
+- Segment hospitals into high, medium, and low risk groups.
+- Create a readmission risk score using rating, worse measure counts, and excess readmission ratio.
+- Export the dashboard-ready view into Power BI.
+- Add geographic analysis using state, county, and city.
+
+Portfolio output suggestion
+Create exports:
+- state_quality_summary.csv
+- ownership_quality_summary.csv
+- condition_readmission_summary.csv
+- hospitals_above_expected_readmissions.csv
+- rating_vs_readmission_summary.csv
+- emergency_services_readmission_summary.csv
+- state_top_readmission_risk_hospitals.csv
+- hospital_readmission_dashboard.csv
+
+Portfolio story
+Frame this as: "I used SQL to analyze public CMS hospital quality and readmission data, identifying facilities, states, and medical conditions with elevated readmission risk and building dashboard-ready outputs for healthcare operations reporting."
+
+Skills demonstrated
+- SQL database design
+- CSV import into MySQL
+- Data cleaning with views
+- Type conversion and handling N/A values
+- Joins across healthcare datasets
+- Aggregations
+- Conditional logic
+- Window functions
+- Healthcare KPI design
+- Dashboard-ready export preparation
+
+Recommended README structure
+- Project overview
+- Dataset sources
+- Schema design
+- Data cleaning approach
+- Key SQL queries
+- Findings
+- Recommendations
+- Limitations
+- Next steps
+
+Suggested business recommendations to write
+- Prioritize hospitals with multiple measures above expected readmission levels.
+- Investigate high-risk medical conditions by state.
+- Compare peer hospitals with similar type and ownership before making conclusions.
+- Use readmission trends alongside staffing, patient mix, and discharge planning data.
+- Treat missing or "Too Few to Report" rows carefully because they can affect comparisons.
+
+Limitations
+- The data is hospital-level, not patient-level.
+- It does not explain why a readmission happened.
+- Some values are missing, marked N/A, or too few to report.
+- Hospitals may serve very different patient populations.
+- SQL results should be interpreted as operational indicators, not clinical conclusions.

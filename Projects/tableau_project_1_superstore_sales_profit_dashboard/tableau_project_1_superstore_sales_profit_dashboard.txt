@@ -1,0 +1,165 @@
+TABLEAU PROJECT 1: SUPERSTORE SALES AND PROFIT DASHBOARD
+
+Dataset
+- Name: Sample - Superstore
+- Source: Tableau sample dataset
+- Access: Open Tableau Desktop or Tableau Public and use the built-in Sample - Superstore data source, or download a Superstore sample file from Tableau community resources.
+- Notes: The dataset includes order dates, sales, profit, quantity, discount, customer segment, product category, sub-category, state, region, and shipping details.
+
+Project goal
+Build a Tableau dashboard that helps business leaders monitor sales, profit, regional performance, discount impact, and weak-margin products.
+
+Business questions
+- What are total sales, profit, order count, and profit ratio?
+- How are sales and profit trending by month?
+- Which regions, states, and segments perform best?
+- Which sub-categories generate strong sales but weak profit?
+- Are discounts helping growth or damaging margin?
+
+Final deliverables
+- Tableau workbook file (.twb or .twbx).
+- 3-dashboard story: Executive Overview, Product and Discount Analysis, Regional Performance.
+- Short written insight summary with 5 to 8 recommendations.
+
+Recommended workbook structure
+- Data Source tab
+- KPI worksheets
+- Trend worksheets
+- Product analysis worksheets
+- Regional map worksheets
+- Final dashboards
+- Story points or insight notes
+
+Step-by-step build guide
+
+1. Connect the data
+- Open Tableau.
+- Connect to Sample - Superstore.
+- Review the Orders table fields.
+- Confirm Order Date is a date field and State/Region have geographic roles where applicable.
+
+2. Validate and clean the data
+- Check that Sales, Profit, Quantity, and Discount are numeric.
+- Check that Category, Sub-Category, Segment, and Region are dimensions.
+- Rename fields if needed for clearer worksheet labels.
+- Hide unused fields to keep the workbook cleaner.
+
+3. Create calculated fields
+Create fields such as:
+
+Order Count
+= COUNTD([Order ID])
+
+Profit Ratio
+= SUM([Profit]) / SUM([Sales])
+
+Average Order Value
+= SUM([Sales]) / COUNTD([Order ID])
+
+Discount Bucket
+= IF [Discount] = 0 THEN "No Discount"
+ELSEIF [Discount] <= 0.2 THEN "Low Discount"
+ELSEIF [Discount] <= 0.4 THEN "Medium Discount"
+ELSE "High Discount"
+END
+
+4. Build KPI sheets
+Create separate sheets for:
+- Total Sales
+- Total Profit
+- Order Count
+- Profit Ratio
+
+Format them as clean KPI cards with large text and minimal clutter.
+
+5. Build monthly trend sheets
+- Create a line chart of SUM(Sales) by MONTH(Order Date).
+- Create a line chart of SUM(Profit) by MONTH(Order Date).
+- If preferred, combine Sales and Profit in a dual-axis or separate aligned views.
+
+6. Build product performance analysis
+- Create a bar chart of Sales by Sub-Category.
+- Create a bar chart of Profit by Sub-Category.
+- Create a scatter plot with:
+  - Columns: SUM(Sales)
+  - Rows: SUM(Profit)
+  - Detail: Sub-Category
+  - Color: Category
+  - Size: SUM(Quantity)
+
+Use this to identify high-sales/low-profit products.
+
+7. Build discount analysis
+- Create a bar chart of Profit Ratio by Discount Bucket.
+- Create a heatmap of Sub-Category by Discount Bucket with Profit or Profit Ratio.
+- Look for product areas where discounting is hurting margin.
+
+8. Build regional analysis
+- Create a filled map or symbol map of Sales by State.
+- Create a bar chart of Profit by Region.
+- Create a table or highlight view of State with Sales, Profit, and Profit Ratio.
+
+9. Add filters and actions
+Useful filters:
+- Region
+- Segment
+- Category
+- Order Date
+
+Useful actions:
+- Filter action from region chart to product chart
+- Highlight action from category chart to sub-category chart
+
+10. Design Dashboard 1: Executive Overview
+Suggested layout:
+- Top row: Title and filters.
+- KPI row: Sales, Profit, Orders, Profit Ratio.
+- Middle left: Monthly sales trend.
+- Middle right: Monthly profit trend.
+- Bottom: Sales by segment and region summary.
+
+11. Design Dashboard 2: Product and Discount Analysis
+Suggested layout:
+- Left: Sales by category and sub-category.
+- Middle: Scatter plot for sales vs profit.
+- Right: Discount impact visuals.
+- Bottom: Product table with Sales, Profit, Profit Ratio.
+
+12. Design Dashboard 3: Regional Performance
+Suggested layout:
+- Left: State map.
+- Right top: Profit by region.
+- Right bottom: State comparison table.
+
+13. Add dashboard polish
+- Use a consistent color palette.
+- Format Sales and Profit as currency.
+- Format Profit Ratio as percentage.
+- Keep chart titles short and business-focused.
+- Remove unnecessary gridlines or legends where possible.
+
+14. Validate the numbers
+- Compare total Sales and Profit to the source totals.
+- Test every filter and dashboard action.
+- Make sure monthly charts sort chronologically.
+- Check that KPI values update correctly when filters change.
+
+15. Write final insights
+Include points such as:
+- Best-performing region.
+- Most profitable category.
+- Weak-margin sub-categories despite high sales.
+- Whether heavy discounting appears to hurt profitability.
+- Product or region recommendations for management review.
+
+Portfolio story
+Frame this as: "I built a Tableau executive dashboard using Superstore data to analyze sales, profit, discount impact, and regional performance."
+
+Skills demonstrated
+- Tableau data connection and cleanup
+- Calculated fields
+- KPI design
+- Dashboard composition
+- Filter and highlight actions
+- Geographic analysis
+- Business storytelling
