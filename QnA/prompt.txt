@@ -15,33 +15,265 @@ FOLDER STRUCTURE TO POPULATE:
 
 INSTRUCTIONS:
 - For EACH section (Excel, Power BI, Python, SQL, Tableau):
-  • Generate 1000+ MCQs (Multiple Choice Questions)
-  • Order questions progressively: Beginner → Intermediate → Advanced
+  • Generate a MINIMUM of 1500 MCQs total
+  • Out of those 1500+, include a MINIMUM of 500 Scenario-Based MCQs
+    - These must be REAL-LIFE, on-the-job scenarios (not just syntax 
+      or "what does this formula do" questions)
+    - Example style: "Your manager asks you to find why Q3 revenue 
+      dropped in 3 regions only — which approach do you take?" or 
+      "You inherit a dataset with 40% missing values in a key column 
+      — what's your first step?"
+    - Scenario questions should be spread across all 3 levels 
+      (simpler workplace scenarios at Beginner, complex multi-step 
+      business problems at Advanced)
+  • The remaining 1000 MCQs (Core MCQs) should be split between:
+    - General concept MCQs (theory, logic, definitions, "why/when")
+    - Tool-usage MCQs (syntax, shortcuts, functions, code snippets, 
+      "what does this output")
+    - Maintain a roughly balanced mix (~50/50) of these two types
+  • Order everything progressively: Beginner → Intermediate → Advanced
     (start easy, gradually increase difficulty)
-  • Include BOTH question types in every level:
-    - General concept MCQs (theory, logic, definitions, "why/when" 
-      questions e.g. when to use VLOOKUP vs INDEX-MATCH, normal forms 
-      in databases, types of joins, statistical concepts, etc.)
-    - Tool-usage MCQs (practical, hands-on e.g. exact menu paths, 
-      keyboard shortcuts, function syntax, DAX/SQL/Python code 
-      snippets, "what does this formula/script output" questions)
-  • Maintain a roughly balanced mix (~50/50) of concept vs tool-usage 
-    questions within each difficulty level
+  • Use ONLY the topic list provided below for that tool — make sure 
+    every topic listed is covered with multiple questions
   • Each MCQ must include:
     - Question
     - 4 options (A/B/C/D)
     - Correct answer marked clearly
     - 1-2 line explanation of why it's correct
-    - Tag noting type: [Concept] or [Tool-Usage]
+    - Tag noting type: [Concept] / [Tool-Usage] / [Scenario]
   • Base questions on real UK job-market skills/tools used at the 
     £45K+ Data Analyst / Gen AI Analyst level
-  • Advanced-level questions should include scenario-based / 
-    case-study style problems, not just theory
   • Keep formatting consistent across all five README.md files
+
+═══════════════════════════════════════
+README.md TEMPLATE / STRUCTURE (apply this exact order in every file)
+═══════════════════════════════════════
+
+# [Tool Name] MCQ Bank — PG Program in Data Analytics & Gen AI
+
+## Beginner
+### Core MCQs (Concept + Tool-Usage)
+Q1. ... [Concept]
+Q2. ... [Tool-Usage]
+... (continue numbering)
+
+### Scenario-Based Questions — Beginner
+Q1. ... [Scenario]
+Q2. ... [Scenario]
+...
+
+## Intermediate
+### Core MCQs (Concept + Tool-Usage)
+Q1. ...
+...
+
+### Scenario-Based Questions — Intermediate
+Q1. ...
+...
+
+## Advanced
+### Core MCQs (Concept + Tool-Usage)
+Q1. ...
+...
+
+### Scenario-Based Questions — Advanced (complex, multi-step, case-study style)
+Q1. ...
+...
+
+═══════════════════════════════════════
+TOPIC LISTS BY FOLDER (Beginner → Advanced)
+═══════════════════════════════════════
+
+EXCEL/README.md
+Beginner:
+- Excel interface, ribbon, tabs, cell referencing (relative/absolute/mixed)
+- Basic formulas: SUM, AVERAGE, COUNT, MAX, MIN
+- Basic formatting, number formats, borders
+- Sorting and filtering data
+- Basic charts (bar, line, pie)
+- Autofill, Flash Fill, Freeze Panes
+- File formats and saving
+- Basic keyboard shortcuts
+
+Intermediate:
+- Logical functions: IF, AND, OR, Nested IF
+- Lookup functions: VLOOKUP, HLOOKUP, INDEX-MATCH
+- Text functions: CONCATENATE, LEFT, RIGHT, MID, TRIM, TEXT
+- Date & time functions
+- Conditional formatting
+- Data validation
+- PivotTables & PivotCharts (basic)
+- Goal Seek / What-If Analysis
+- Named ranges, Excel Tables (structured references)
+- Intro to Power Query
+- Protecting sheets/workbooks
+
+Advanced:
+- Dynamic arrays: XLOOKUP, FILTER, SORT, UNIQUE
+- Advanced PivotTables (calculated fields, slicers, timelines)
+- Power Query (M language basics, merge/append queries)
+- Power Pivot & DAX basics
+- Macros & VBA fundamentals
+- Financial functions (NPV, IRR, PMT)
+- Statistical functions (STDEV, VAR, CORREL, regression)
+- Solver, Scenario Manager
+- Error handling (IFERROR, IFNA)
+- Data Model & table relationships
+- Real-life: building exec dashboards, cleaning messy budget data, 
+  automating monthly sales reports, reconciling mismatched datasets
+
+───────────────────────────────────────
+
+POWER-BI/README.md
+Beginner:
+- Power BI interface (Report, Data, Model views)
+- Connecting to data sources
+- Basic visualizations (bar, line, pie, card, table)
+- Power BI Desktop vs Service vs Mobile
+- Basic filters and slicers
+- Publishing reports (basics)
+- Formatting visuals
+
+Intermediate:
+- Power Query Editor transformations (merge, append, pivot/unpivot, split columns)
+- Data modeling: relationships, cardinality, cross-filter direction
+- Calculated columns vs measures
+- Basic DAX: SUM, CALCULATE, COUNTROWS, DISTINCT
+- Hierarchies and drill-down
+- Bookmarks and buttons
+- Grouping and binning
+- Row-Level Security (RLS) basics
+
+Advanced:
+- Advanced DAX (CALCULATE, FILTER, ALL, ALLEXCEPT, time intelligence, variables)
+- Star schema vs snowflake schema design
+- Performance optimization (query folding, aggregations)
+- Composite models, DirectQuery vs Import mode
+- Advanced RLS implementation
+- Power BI Service: workspaces, apps, gateways, scheduled refresh
+- Paginated reports
+- AI visuals (Q&A, Key Influencers, Decomposition Tree)
+- Deployment pipelines
+- Real-life: client wants a live sales dashboard refreshed hourly — 
+  design it; report is running slow with 2M rows — troubleshoot it; 
+  finance team needs region-restricted data access — implement RLS
+
+───────────────────────────────────────
+
+PYTHON/README.md
+Beginner:
+- Variables, data types, operators
+- Control flow: if-else, for/while loops
+- Functions and basic syntax
+- Lists, tuples, dictionaries, sets
+- String manipulation
+- Basic file I/O
+- pip and package installation
+- Jupyter Notebook basics
+
+Intermediate:
+- NumPy: arrays, indexing, broadcasting
+- Pandas: Series, DataFrame, filtering, groupby, merge/join
+- Data cleaning (missing values, duplicates)
+- Data visualization: Matplotlib, Seaborn basics
+- Reading/writing CSV, Excel, JSON
+- Descriptive statistics in Python (mean, median, std, correlation)
+- List comprehensions
+- Exception handling
+- Lambda, map/filter/reduce
+- Basic OOP (classes, objects)
+
+Advanced:
+- Advanced Pandas (multi-indexing, pivot tables, vectorization, performance)
+- Statistical modeling (SciPy, statsmodels)
+- Machine learning with scikit-learn (regression, classification, clustering, evaluation metrics)
+- Intro to Gen AI/NLP: tokenization, embeddings, transformer basics
+- Using LLM APIs and prompt engineering in code
+- RAG (Retrieval-Augmented Generation) and LangChain concepts
+- Vector databases (conceptual understanding)
+- Web scraping (BeautifulSoup, requests)
+- Workflow automation/scripting
+- Git basics for Python projects
+- Real-life: client's raw transaction data is full of duplicates and 
+  nulls — build a cleaning pipeline; build a simple support-ticket 
+  chatbot using an LLM API; automate a weekly report that emails 
+  stakeholders
+
+───────────────────────────────────────
+
+SQL/README.md
+Beginner:
+- Database, table, row, column fundamentals
+- SELECT, WHERE, ORDER BY
+- Basic data types
+- INSERT, UPDATE, DELETE
+- Aggregate functions: COUNT, SUM, AVG, MIN, MAX
+- GROUP BY, HAVING
+- Logical/comparison operators
+
+Intermediate:
+- JOINS: INNER, LEFT, RIGHT, FULL, CROSS
+- Subqueries
+- UNION, UNION ALL, INTERSECT, EXCEPT
+- String and date functions
+- CASE statements
+- Views
+- Indexes (basics)
+- Constraints: PK, FK, UNIQUE, NOT NULL, CHECK
+- Normalization (1NF, 2NF, 3NF)
+
+Advanced:
+- Window functions (ROW_NUMBER, RANK, DENSE_RANK, LAG, LEAD, PARTITION BY)
+- CTEs and recursive CTEs
+- Query optimization & execution plans
+- Stored procedures, triggers, user-defined functions
+- Transactions, ACID properties, isolation levels
+- Indexing strategies (clustered/non-clustered)
+- Database design & ER diagrams
+- Performance tuning for large datasets
+- Real-life: a sales table has duplicate customer entries — write a 
+  query to find and remove them; a dashboard query times out on 
+  production data — optimize it; design a schema for a new online 
+  store from scratch
+
+───────────────────────────────────────
+
+TABLEAU/README.md
+Beginner:
+- Tableau interface (Data pane, Shelves, Marks card)
+- Connecting to data sources
+- Dimensions vs Measures
+- Basic chart types (bar, line, pie, scatter)
+- Basic filters and sorting
+- Tableau Desktop vs Server vs Public vs Online
+
+Intermediate:
+- Calculated fields (basics)
+- Table calculations
+- Dual-axis and combo charts
+- Basic geographic mapping
+- Groups, sets, bins
+- Parameters (basics)
+- Dashboard layout and actions (filter/highlight actions)
+- Joins vs data blending (basics)
+
+Advanced:
+- LOD (Level of Detail) expressions: FIXED, INCLUDE, EXCLUDE
+- Advanced/nested calculated fields
+- Advanced table calculations
+- Data blending vs joining vs relationships (data model)
+- Performance optimization (extracts vs live connections)
+- Story points and advanced dashboard storytelling
+- Tableau Server/Online publishing, permissions, scheduling
+- Dynamic parameter actions
+- Real-life: CEO wants a single-page dashboard summarizing global 
+  sales performance; workbook with 5 joined tables is loading too 
+  slowly — fix it; build an interactive dashboard letting regional 
+  managers filter to only their own data
 
 OUTPUT FORMAT:
 - Markdown
-- Group with headers: ## Beginner | ## Intermediate | ## Advanced
-- Number questions sequentially within each level (Q1, Q2, Q3...)
-- Add [Concept] or [Tool-Usage] tag right after each question number
+- Follow the README TEMPLATE structure above exactly
+- Number questions sequentially within each subsection (Q1, Q2, Q3...)
+- Tag every question with [Concept], [Tool-Usage], or [Scenario]
 - Save each section's output into its respective README.md file

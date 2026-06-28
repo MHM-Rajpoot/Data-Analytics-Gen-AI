@@ -1,31 +1,23 @@
 # PG Program in Data Analytics & Gen AI - MCQ Banks
 
-This repository contains progressive MCQ banks for learners targeting UK Data Analyst, BI Analyst, and Gen AI Analyst roles at approximately GBP 45,000+ readiness.
+This folder contains Markdown MCQ banks for learners targeting UK Data Analyst, BI Analyst, and Gen AI Analyst roles at approximately GBP 45,000+ readiness.
 
-The banks are aligned to practical analyst capability areas: data preparation, data modelling, SQL querying, Python analysis, Excel modelling, BI reporting, visual storytelling, stakeholder communication, data governance, privacy, quality assurance, and safe Gen AI-assisted analysis.
+Each tool bank contains 1,500 questions: 500 [Concept], 500 [Tool-Usage], and 500 [Scenario]. The questions are ordered progressively from Beginner to Intermediate to Advanced and are based only on the topic lists in prompt.txt.
 
-The concept questions include foundational definition checks such as cardinality, data grain, primary and foreign keys, semantic models, filter context, row context, vectorisation, schema validation, level of detail, table calculations, and related analyst vocabulary.
+| Section | Total MCQs | Concept | Tool-Usage | Scenario | Beginner | Intermediate | Advanced | File |
+|---|---:|---:|---:|---:|---:|---:|---:|---|
+| Excel | 1500 | 500 | 500 | 500 | 500 | 500 | 500 | [Excel/README.md](Excel/README.md) |
+| Power BI | 1500 | 500 | 500 | 500 | 500 | 500 | 500 | [Power-BI/README.md](Power-BI/README.md) |
+| Python | 1500 | 500 | 500 | 500 | 500 | 500 | 500 | [Python/README.md](Python/README.md) |
+| SQL | 1500 | 500 | 500 | 500 | 500 | 500 | 500 | [SQL/README.md](SQL/README.md) |
+| Tableau | 1500 | 500 | 500 | 500 | 500 | 500 | 500 | [Tableau/README.md](Tableau/README.md) |
 
-| Section | MCQs | Beginner | Intermediate | Advanced | Question bank |
-|---|---:|---:|---:|---:|---|
-| Excel | 1500 | 500 | 500 | 500 | [Excel/README.md](Excel/README.md) |
-| Power BI | 1500 | 500 | 500 | 500 | [Power-BI/README.md](Power-BI/README.md) |
-| Python | 1500 | 500 | 500 | 500 | [Python/README.md](Python/README.md) |
-| SQL | 1500 | 500 | 500 | 500 | [SQL/README.md](SQL/README.md) |
-| Tableau | 1500 | 500 | 500 | 500 | [Tableau/README.md](Tableau/README.md) |
+## Structure
 
-## Format
+Every topic file follows this order:
 
-Each topic file is organised as:
+1. Beginner
+2. Intermediate
+3. Advanced
 
-- `## Beginner`
-- `## Intermediate`
-- `## Advanced`
-
-Every level contains 250 [Concept] and 250 [Tool-Usage] questions.
-
-## Market Alignment Sources
-
-- UK Government Digital and Data Profession Capability Framework: https://ddat-capability-framework.service.gov.uk/role/data-analyst
-- UK Government Analysis Function data analyst role profile: https://analysisfunction.civilservice.gov.uk/careers/role-profiles-and-career-pathways/role-profile-data-analyst/
-- Prospects data analyst profile: https://www.prospects.ac.uk/job-profiles/data-analyst/
+Each level contains a Core MCQs section followed by a Scenario-Based Questions section. Every question includes four answer options, a clearly marked correct answer, a short explanation, and one of the required tags.
