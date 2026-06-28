@@ -47,6 +47,35 @@ INSTRUCTIONS:
 
 ═══════════════════════════════════════
 README.md TEMPLATE / STRUCTURE (apply this exact order in every file)
+
+CURRENT README STRUCTURE TO USE:
+- At the top of every tool README.md, add a Quick Outline immediately after the H1 title.
+- In the Quick Outline, include a link to a Definition-Based Concept MCQs section.
+- The Quick Outline must link to Beginner, Intermediate, and Advanced sections.
+- For each difficulty level, include links to Core MCQs and Scenario-Based Questions.
+- List the relevant topic names from this prompt under each difficulty level.
+- Make topic names clickable; topic links should jump to the matching difficulty section.
+- Add stable HTML anchors before each section:
+  - <a id="definition-concept-mcqs"></a>
+  - <a id="beginner-section"></a>
+  - <a id="beginner-core"></a>
+  - <a id="beginner-scenarios"></a>
+  - <a id="intermediate-section"></a>
+  - <a id="intermediate-core"></a>
+  - <a id="intermediate-scenarios"></a>
+  - <a id="advanced-section"></a>
+  - <a id="advanced-core"></a>
+  - <a id="advanced-scenarios"></a>
+- Format each MCQ as a readable Markdown block:
+  - Use #### for the question heading, for example: #### Q1. Question text? [Concept]
+  - Use bullet options: - **A.** Option text
+  - Put **Correct answer:** on its own line.
+  - Put **Explanation:** on its own line.
+  - Leave blank lines between the question, options, correct answer, explanation, and next question.
+- After every 10 MCQs in each tool README.md, add:
+  [Back to Quick Outline](#quick-outline)
+- Add 50 definition-based [Concept] MCQs near the top of each tool README.md before the Beginner section. These should ask direct "what is..." or "which definition best describes..." questions for key terms, for example cardinality, primary key, measure, DataFrame, PivotTable, relationship, dimension, or filter context.
+- The root QnA/README.md should also include a Quick Outline table linking to each tool README.md and its Definition, Beginner, Intermediate, and Advanced anchors.
 ═══════════════════════════════════════
 
 # [Tool Name] MCQ Bank — PG Program in Data Analytics & Gen AI
@@ -276,4 +305,10 @@ OUTPUT FORMAT:
 - Follow the README TEMPLATE structure above exactly
 - Number questions sequentially within each subsection (Q1, Q2, Q3...)
 - Tag every question with [Concept], [Tool-Usage], or [Scenario]
+- Use readable Markdown MCQ blocks with #### question headings, bullet options, bold correct answer, and bold explanation
+- Include 50 definition-based [Concept] MCQs in every tool README.md
+- Include the Quick Outline with definition, difficulty, subsection, and topic links at the top of every tool README.md
+- Add stable section anchors so all Quick Outline links work
+- After every 10 MCQs in each tool README.md, add [Back to Quick Outline](#quick-outline)
+- Include a root README.md Quick Outline table linking to each tool, its definition section, and its difficulty sections
 - Save each section's output into its respective README.md file
