@@ -1,0 +1,47 @@
+TASK: Generate MCQ banks for a PG Program in Data Analytics & Gen AI
+
+GOAL / CONTEXT:
+- Target outcome: help learners get hired in the UK for Data Analytics / 
+  Gen AI roles with a package of £45,000+
+- Program theme: PG Program in Data Analytics & Gen AI
+
+FOLDER STRUCTURE TO POPULATE:
+- README.md (root - program overview)
+- Excel/README.md
+- Power-BI/README.md
+- Python/README.md
+- SQL/README.md
+- Tableau/README.md
+
+INSTRUCTIONS:
+- For EACH section (Excel, Power BI, Python, SQL, Tableau):
+  • Generate 1000+ MCQs (Multiple Choice Questions)
+  • Order questions progressively: Beginner → Intermediate → Advanced
+    (start easy, gradually increase difficulty)
+  • Include BOTH question types in every level:
+    - General concept MCQs (theory, logic, definitions, "why/when" 
+      questions e.g. when to use VLOOKUP vs INDEX-MATCH, normal forms 
+      in databases, types of joins, statistical concepts, etc.)
+    - Tool-usage MCQs (practical, hands-on e.g. exact menu paths, 
+      keyboard shortcuts, function syntax, DAX/SQL/Python code 
+      snippets, "what does this formula/script output" questions)
+  • Maintain a roughly balanced mix (~50/50) of concept vs tool-usage 
+    questions within each difficulty level
+  • Each MCQ must include:
+    - Question
+    - 4 options (A/B/C/D)
+    - Correct answer marked clearly
+    - 1-2 line explanation of why it's correct
+    - Tag noting type: [Concept] or [Tool-Usage]
+  • Base questions on real UK job-market skills/tools used at the 
+    £45K+ Data Analyst / Gen AI Analyst level
+  • Advanced-level questions should include scenario-based / 
+    case-study style problems, not just theory
+  • Keep formatting consistent across all five README.md files
+
+OUTPUT FORMAT:
+- Markdown
+- Group with headers: ## Beginner | ## Intermediate | ## Advanced
+- Number questions sequentially within each level (Q1, Q2, Q3...)
+- Add [Concept] or [Tool-Usage] tag right after each question number
+- Save each section's output into its respective README.md file
